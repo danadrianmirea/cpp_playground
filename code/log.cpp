@@ -7,7 +7,7 @@ Log::Log(LogLevel l)
     m_logLevel = l;
 };
 
-void Log::SetLevel(LogLevel& l)
+void Log::SetLevel(LogLevel l)
 {
     m_logLevel = l;
 };

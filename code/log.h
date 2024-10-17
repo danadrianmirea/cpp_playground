@@ -14,7 +14,7 @@ class Log
     public:
         Log() = delete;
         Log(LogLevel l);
-        void SetLevel(LogLevel& l);
+        void SetLevel(LogLevel l);
         void Print(LogLevel l, std::string message);
 
     private:

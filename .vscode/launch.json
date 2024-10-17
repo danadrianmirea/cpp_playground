@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "(Windows) Launch", 
+        "type": "cppvsdbg",  // Use Visual Studio debugger
+        "request": "launch",
+        "program": "${workspaceFolder}/build/cherno_cpptut_follow_along.exe",  // Path to your executable
+        "args": [],
+        "stopAtEntry": false,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "externalConsole": false,  // Set to true if you want to see the console window
+        "preLaunchTask": "CMake: build",  // Ensure it builds before running
+        "internalConsoleOptions": "openOnSessionStart"
+      }
+    ]
+  }
+  
