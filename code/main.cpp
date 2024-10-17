@@ -22,7 +22,7 @@ void LogTest()
   log.Print(LogLevel::LOG_ERROR, std::string("This is another error message"));
 }
 
-int32_t main()
+void OldStuff1()
 {
   std::cout << "Hello world using CMake" << std::endl;
   exampleFunction();
@@ -33,6 +33,9 @@ int32_t main()
   vec.Print();
 
   LogTest();
+}
 
+int32_t main()
+{
   return 0;
 }
