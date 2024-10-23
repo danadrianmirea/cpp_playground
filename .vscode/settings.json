@@ -62,6 +62,7 @@
         "xutility": "cpp",
         "*.tcc": "cpp",
         "string_view": "cpp",
-        "text_encoding": "cpp"
+        "text_encoding": "cpp",
+        "sstream": "cpp"
     }
 }

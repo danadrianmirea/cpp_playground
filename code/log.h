@@ -16,6 +16,7 @@ class Log
         Log(LogLevel l);
         void SetLevel(LogLevel l);
         void Print(LogLevel l, std::string message);
+        static void LogTest();
 
     private:
         LogLevel m_logLevel;    
