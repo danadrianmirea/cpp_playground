@@ -6,6 +6,7 @@
 #include "testclass.h"
 
 #include "log.h"
+#include "tokenizer.h"
 
 void LogTest()
 {
@@ -37,5 +38,7 @@ void OldStuff1()
 
 int32_t main()
 {
+  Tokenizer t;
+  t.test();
   return 0;
 }
