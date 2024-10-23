@@ -7,4 +7,3 @@ cmake_minimum_required(VERSION 3.28)
 project(cherno_cpptut_follow_along)
 
 add_subdirectory(code)
-#add_subdirectory(libraries)

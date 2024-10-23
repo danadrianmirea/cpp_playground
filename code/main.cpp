@@ -8,6 +8,12 @@
 #include "log.h"
 #include "tokenizer.h"
 
+#include "staticmember.h"
+
+#include "generictest.hpp"
+
+using namespace std;
+
 void LogTest()
 {
   Log log(LogLevel::LOG_WARNING);
@@ -38,7 +44,5 @@ void OldStuff1()
 
 int32_t main()
 {
-  Tokenizer t;
-  t.test();
   return 0;
 }
