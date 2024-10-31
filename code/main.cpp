@@ -12,17 +12,7 @@
 
 using namespace std;
 
-union kkt
-{
-  int intlike;
-  float floatlike;
-};
-
 int32_t main()
 {
-  kkt k1;
-  k1.intlike = 8;
-  std::cout << "as int: " << k1.intlike << endl;
-  std::cout << "as float: " << k1.floatlike << endl;
   return 0;
 }
