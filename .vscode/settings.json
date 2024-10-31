@@ -63,6 +63,7 @@
         "*.tcc": "cpp",
         "string_view": "cpp",
         "text_encoding": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "bitset": "cpp"
     }
 }

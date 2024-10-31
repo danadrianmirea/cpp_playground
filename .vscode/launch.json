@@ -10,7 +10,7 @@
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",
         "environment": [],
-        "console": false,  // Set to true if you want to see the console window
+        "console": "integratedTerminal",
         "preLaunchTask": "CMake: build",  // Ensure it builds before running
         "internalConsoleOptions": "openOnSessionStart"
       }
