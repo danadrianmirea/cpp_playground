@@ -8,12 +8,12 @@
 #include "staticmember.h"
 #include "generictest.hpp"
 #include "bitwise.h"
+#include "interrupt_example.h"
 
 using namespace std;
 
 int32_t main()
 {
-  BitwiseOperationTests();
-
+  TimerInterruptTest();
   return 0;
 }
