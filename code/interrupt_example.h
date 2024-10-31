@@ -23,7 +23,9 @@ void TimerInterruptTest()
         return;
     }
 
-    std::cout << "Timer started. Press Enter to stop..." << std::endl;
+    std::cout << "Timer started." << std::endl;
+
+    int mainCounter = 0;
 
     // Main message loop
     MSG msg;
@@ -36,6 +38,12 @@ void TimerInterruptTest()
             DispatchMessage(&msg);
         }
 
+        mainCounter++;
+        if(mainCounter >= 4)
+        {
+            mainCounter = 0;
+            std::cout << "mainCounter : " << counter << std::endl;
+        }
         Sleep(50);
     }
 
