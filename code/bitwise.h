@@ -2,6 +2,10 @@
 
 #include <iostream>
 #include <bitset>
+#include <vector>
+#include <stack>
+#include <deque>
+#include <algorithm>
 
 #define BIT0 (1 << 0) // 0x01   0000 0001
 #define BIT1 (1 << 1) // 0x02   0000 0010
@@ -11,6 +15,97 @@
 #define BIT5 (1 << 5) // 0x20   0010 0000
 #define BIT6 (1 << 6) // 0x40   0100 0000
 #define BIT7 (1 << 7) // 0x80   1000 0000
+
+std::vector<int> convertToBinary(int num)
+{
+    std::vector<int> result;
+    while (num)
+    {
+        result.push_back(num & 1);
+        num = num >> 1;
+    }
+    std::reverse(result.begin(), result.end());
+    return result;
+}
+
+std::string convertToBinaryStr(int num)
+{
+    std::string result;
+    while (num)
+    {
+        result += '0' + (num & 1);
+        num = num >> 1;
+    }
+    std::reverse(result.begin(), result.end());
+    return result;
+}
+
+std::string convertToBinaryStrStack(int num)
+{
+    std::string result = "";
+    std::stack<int> st;
+    while (num)
+    {
+        st.push(num & 1);
+        num = num >> 1;
+    }
+
+    while (!st.empty())
+    {
+        result += '0' + st.top();
+        st.pop();
+    }
+    return result;
+}
+
+std::deque<int> convertToBinaryDeq(int num)
+{
+    std::deque<int> dq;
+    while (num)
+    {
+        dq.push_front(num & 1);
+        num = num >> 1;
+    }
+    return dq;
+}
+
+void testPrintInBinary(int i)
+{
+    auto res = convertToBinary(i);
+    //for (auto& bit : res | std::views::reverse)
+    //for (auto it = res.rbegin(); it != res.rend(); ++it)
+    //{
+        //std::cout << *it;
+    //}
+    for (auto& bit : res)
+    {
+        std::cout << bit;
+    }
+    std::cout << "\n";
+
+    auto res2 = convertToBinaryStr(i);
+    for (auto& bit : res2)
+    {
+        std::cout << bit;
+    }
+    std::cout << "\n";
+
+    auto res3 = convertToBinaryStrStack(i);
+    for (auto& bit : res3)
+    {
+        std::cout << bit;
+    }
+    std::cout << "\n";
+
+    auto res4 = convertToBinaryDeq(i);
+    for (auto& bit : res4)
+    {
+        std::cout << bit;
+    }
+    std::cout << "\n";
+
+}
+
 
 void BitwiseOperationTests()
 {
@@ -33,11 +128,11 @@ void BitwiseOperationTests()
     std::cout << "negate i\n";
     std::cout << "i: " << std::bitset<8>(i) << std::endl;
 
-    i &= (~(BIT7|BIT6|BIT5)); // unset bits 7 6 and 5 simultaneously
+    i &= (~(BIT7 | BIT6 | BIT5)); // unset bits 7 6 and 5 simultaneously
     std::cout << "unset bits 7 6 and 5 simultaneously\n";
     std::cout << "i: " << std::bitset<8>(i) << std::endl;
 
-    i ^= (BIT7|BIT6|BIT5); // toggle bits 7, 6, 5
+    i ^= (BIT7 | BIT6 | BIT5); // toggle bits 7, 6, 5
     std::cout << "toggle bits 7, 6, 5\n";
     std::cout << "i: " << std::bitset<8>(i) << std::endl;
 
@@ -54,15 +149,15 @@ void BitwiseOperationTests()
     std::cout << "i: " << std::bitset<8>(i) << std::endl;
     std::cout << "j: " << std::bitset<8>(j) << std::endl;
     std::cout << "k: " << std::bitset<8>(k) << std::endl;
-    if( (i & j) == j)
+    if ((i & j) == j)
     {
         std::cout << "i has all the bits from j set\n";
     }
-    if( (i & k) == k )
+    if ((i & k) == k)
     {
         std::cout << "i has all the bits from k set\n";
     }
-    
+
     int setmask = 0b10100110;
     std::cout << "i: " << std::bitset<8>(i) << std::endl;
     i |= setmask;
