@@ -4,11 +4,9 @@
 
 using namespace std;
 
-#include "constAndPointers.h"
-
 int32_t main()
 {
-  ConstPointerTestFunction();
+  
   return 0;
 }
 
