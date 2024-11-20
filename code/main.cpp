@@ -63,6 +63,9 @@ int32_t main()
   Print(*pointerToConst);
   //*pointerToConst = 7777; // invalid, this is a pointer to a constant int
 
+  //constantPointerToConst = &num2; // invalid, cannot change a constant pointer value
+  //*constantPointerToConst = 8888; // invalid, cannot change the value the pointer is pointing to because it's a pointer TO a const
+  // essentially constantPointerToConst is just set once to some memory and can only read it's value
 
   //cRef = 88; // not valid, this reference is const
   //cRef2 = 99; // same as above, just defined differently: const int and int const are the same
