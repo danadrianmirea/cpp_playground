@@ -20,6 +20,7 @@ inline void Print(int num)
 int32_t main()
 {
   int num = 8;
+  const int cNum = 13;
   int &ref = num;
   int const &cRef = num;
   const int &cRef2 = num;
@@ -32,6 +33,7 @@ int32_t main()
   
   int *intPtr = new int;
   int* const constantPointer = new int;
+  int const* pointerToConst;
   
   *intPtr = num;
   *constantPointer = num;
@@ -42,6 +44,13 @@ int32_t main()
   Print(num);
 
   Print(cRef3);
+
+  Print(gigaConst);
+  Print(superGigaConst);
+
+  int* changeConst = const_cast<int*>(&cNum);
+  *changeConst = 33;
+  Print(cNum);
 
   //cRef = 88; // not valid, this reference is const
   //cRef2 = 99; // same as above, just defined differently: const int and int const are the same
