@@ -1,6 +1,5 @@
 #include <cstdint>
 #include <iostream>
-#include "bitwise.h"
 
 using namespace std;
 
