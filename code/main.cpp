@@ -14,7 +14,6 @@ void realFunction(int n)
 
 int32_t main()
 {
-  testPrintInBinary(0b11011111);
   int num = 8;
   int &ref = num;
   int const &cRef = num;
