@@ -9,7 +9,7 @@ add_custom_target(run
 #target_link_libraries(${PROJECT_NAME}      PRIVATE engine_platform)
 #target_include_directories(${PROJECT_NAME} PRIVATE code)
 
-file(GLOB SOURCES *.cpp)
+file(GLOB SOURCES *.cpp *.c)
 
 #set(SOURCES
 #    main.cpp
