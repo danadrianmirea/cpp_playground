@@ -28,12 +28,13 @@ int32_t main()
   const const const int gigaConst = 8; // valid but same as const int
   const const const int const const superGigaConst = 111; // valid but same as const int 
 
-  funcPtr = realFunction;
-  funcPtr(103);
-  
   int *intPtr = new int;
-  int* const constantPointer = new int;
-  int const* pointerToConst;
+  int* const constantPointer = &num;
+  int const* pointerToConst = &num;
+  int const* const constantPointerToConst = &num;
+
+    funcPtr = realFunction;
+  funcPtr(103);
   
   *intPtr = num;
   *constantPointer = num;
@@ -55,11 +56,9 @@ int32_t main()
   //cRef = 88; // not valid, this reference is const
   //cRef2 = 99; // same as above, just defined differently: const int and int const are the same
 
-
   delete intPtr;
   intPtr = nullptr;
-  delete constantPointer;
-  //ptrToConstInt = nullptr;  // error, cannot assign a value to a constant pointer
+
   
 
   return 0;
