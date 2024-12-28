@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <ctime>
 
 struct DateTime
 {
@@ -68,7 +69,7 @@ DateTime convertEpochToDate(time_t epoch_time)
 int TestEpochConvert()
 {
     // Example epoch time
-    time_t epoch_time = 1672531200; // Replace with your epoch time
+    time_t epoch_time = std::time(nullptr);
 
     DateTime result = convertEpochToDate(epoch_time);
 
