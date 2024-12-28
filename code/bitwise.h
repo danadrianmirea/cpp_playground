@@ -3,8 +3,6 @@
 #include <iostream>
 #include <bitset>
 #include <vector>
-#include <stack>
-#include <deque>
 #include <algorithm>
 
 #define BIT0 (1 << 0) // 0x01   0000 0001
@@ -33,40 +31,11 @@ std::string convertToBinaryStr(int num)
     std::string result;
     while (num)
     {
-        result += '0' + (num & 1);
+        result.push_back(num & 1);
         num = num >> 1;
     }
     std::reverse(result.begin(), result.end());
     return result;
-}
-
-std::string convertToBinaryStrStack(int num)
-{
-    std::string result = "";
-    std::stack<int> st;
-    while (num)
-    {
-        st.push(num & 1);
-        num = num >> 1;
-    }
-
-    while (!st.empty())
-    {
-        result += '0' + st.top();
-        st.pop();
-    }
-    return result;
-}
-
-std::deque<int> convertToBinaryDeq(int num)
-{
-    std::deque<int> dq;
-    while (num)
-    {
-        dq.push_front(num & 1);
-        num = num >> 1;
-    }
-    return dq;
 }
 
 void testPrintInBinary(int i)
@@ -82,30 +51,7 @@ void testPrintInBinary(int i)
         std::cout << bit;
     }
     std::cout << "\n";
-
-    auto res2 = convertToBinaryStr(i);
-    for (auto& bit : res2)
-    {
-        std::cout << bit;
-    }
-    std::cout << "\n";
-
-    auto res3 = convertToBinaryStrStack(i);
-    for (auto& bit : res3)
-    {
-        std::cout << bit;
-    }
-    std::cout << "\n";
-
-    auto res4 = convertToBinaryDeq(i);
-    for (auto& bit : res4)
-    {
-        std::cout << bit;
-    }
-    std::cout << "\n";
-
 }
-
 
 void BitwiseOperationTests()
 {
