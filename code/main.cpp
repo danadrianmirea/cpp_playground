@@ -3,9 +3,7 @@
 
 using namespace std;
 
-#include "smartPointerTest.h"
-
 int32_t main()
 {
-  TestSmartPointer();
+  return 0;
 } 
