@@ -14,7 +14,7 @@ void print(T value) {
     }
 }
 
-int TestSfinaeCPP17() {
+int TestSfinaeUsingConstexpr() {
     print(42);        // Calls integral branch
     print(3.14);      // Calls floating-point branch
     print("hello");   // Calls other type branch
