@@ -1,1 +1,1 @@
-Just a project I use to follow along while watching Cherno's cpp youtube tutorials
+A repo I use as a playground for various cpp code
