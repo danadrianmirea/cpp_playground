@@ -3,8 +3,10 @@
 
 using namespace std;
 
+#include "sfinae_old.hpp"
+
 int32_t main()
 {
-  std::cout << "Test\n";
+  TestCPP11_Sfinae();
   return 0;
 } 
