@@ -1,5 +1,7 @@
 #pragma once
 
+using namespace std;
+
 string longestPalindrome(string s)
 {
     int n = s.size();
