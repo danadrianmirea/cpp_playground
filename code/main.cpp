@@ -4,14 +4,21 @@
 using namespace std;
 
 template <typename T>
-std::enable_if<std::is_integral_v<T>> PrintInteger(T)
+typename std::enable_if<std::is_integral<T>::value, void>::type Print(T val)
 {
-  std::cout << "Integer value: " << T << "\n";
+  std::cout << "Integer value: " << val << "\n";
+}
+
+template <typename T>
+typename std::enable_if<std::is_floating_point<T>::value, void>::type Print(T val)
+{
+  std::cout << "Float value: " << val << "\n";
 }
 
 int32_t main()
 {
-  PrintInteger(3);
+  Print(3);
+  Print(5.3f);
   return 0;
 }
 
