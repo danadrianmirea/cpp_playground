@@ -3,6 +3,8 @@
 
 using namespace std;
 
+#include "sfinae_with_concepts.hpp"
+
 string longestPalindrome(string s)
 {
   int n = s.size();
@@ -28,6 +30,7 @@ string longestPalindrome(string s)
 
 int32_t main()
 {
+  TestSfinaeWithConcepts();
   std::string str("cbbd");
   std::cout << longestPalindrome(str);
   return 0;

@@ -4,6 +4,6 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 cmake_minimum_required(VERSION 3.28)
 
-project(cherno_cpptut_follow_along)
+project(cpp_playground)
 
 add_subdirectory(code)
