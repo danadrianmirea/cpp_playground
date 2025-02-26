@@ -21,9 +21,10 @@ void ConstPointerTestFunction()
   int& ref = num;
   int const& cRef = num;
   const int& cRef2 = num;
-  const int const& cRef3 = num;
-  const const const int gigaConst = 8; // valid but same as const int (actually seems to depend on compiler and settings)
-  const const const int const const superGigaConst = 111; // valid but same as const int 
+  //const int const& cRef3 = num;
+  //const const const int gigaConst = 8; // valid but same as const int (actually seems to depend on compiler and settings)
+  //const const const int const const superGigaConst = 111; // valid but same as const int 
+  // ^ these are only valid on some compilers so I'll just comment them out
 
   int* intPtr = new int;
   int* const constantPointer = &num;
@@ -40,10 +41,10 @@ void ConstPointerTestFunction()
   ref = 17;
   Print(num);
 
-  Print(cRef3);
+  //Print(cRef3);
 
-  Print(gigaConst);
-  Print(superGigaConst);
+  //Print(gigaConst);
+  //Print(superGigaConst);
 
   int* changeConst = const_cast<int*>(&cNum);
   *changeConst = 33;
