@@ -248,10 +248,10 @@ void goldbach_conjecture_test(uint64_t start, uint64_t end, uint64_t step = 2) {
         processed++;
         uint64_t current_percentage = (processed * 100) / total_numbers;
 
-        // Report progress more frequently (every 0.1% instead of 1%)
-        if (current_percentage > last_percentage || processed % 500 == 0) {
+        // Report progress only once per second or when percentage changes
+        auto time_since_last_progress = std::chrono::duration_cast<std::chrono::milliseconds>(number_end - last_progress_time);
+        if (current_percentage > last_percentage || time_since_last_progress.count() >= 1000) {
             auto overall_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(number_end - overall_start);
-            auto since_last_progress = std::chrono::duration_cast<std::chrono::milliseconds>(number_end - last_progress_time);
 
             std::cout << "\rProgress: " << std::setw(3) << current_percentage
                 << "% (" << n << "/" << end << ") Cache: "
@@ -259,8 +259,8 @@ void goldbach_conjecture_test(uint64_t start, uint64_t end, uint64_t step = 2) {
                 << non_prime_cache.size() << " non-primes | Primes list: "
                 << known_primes.size() << " | Last: "
                 << number_duration.count() << "ms | Total: "
-                << overall_elapsed.count() << "ms | Since last: "
-                << since_last_progress.count() << "ms" << std::flush;
+                << overall_elapsed.count() << "ms | Rate: "
+                << (processed * 1000) / overall_elapsed.count() << " nums/sec" << std::flush;
 
             if (current_percentage > last_percentage) {
                 last_percentage = current_percentage;
@@ -282,6 +282,7 @@ void goldbach_conjecture_test(uint64_t start, uint64_t end, uint64_t step = 2) {
         << non_prime_cache.size() << " non-primes cached" << std::endl;
     std::cout << "Total primes generated: " << known_primes.size() << std::endl;
     std::cout << "Total execution time: " << total_duration.count() << "ms" << std::endl;
+    std::cout << "Average rate: " << (processed * 1000) / total_duration.count() << " numbers per second" << std::endl;
 }
 
 int main() {
@@ -290,7 +291,7 @@ int main() {
 
     // Test with reasonable ranges first
     uint64_t test_start = 500000;
-    uint64_t test_end = 1000000; // Start with 1 million
+    uint64_t test_end = std::numeric_limits<uint64_t>::max();
 
     std::cout << "\nTesting range: " << test_start << " to " << test_end << std::endl;
     goldbach_conjecture_test(test_start, test_end);
