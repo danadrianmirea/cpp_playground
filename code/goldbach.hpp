@@ -13,7 +13,7 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
-
+#include <string>
 
 // Forward declaration
 bool miller_rabin(uint64_t n, int k);
@@ -28,6 +28,34 @@ std::mutex cache_mutex;
 std::vector<uint64_t> known_primes;
 uint64_t last_sieved_limit = 0;
 std::mutex primes_mutex;
+
+// Function to format time in human-readable format
+std::string format_time_remaining(uint64_t milliseconds) {
+    if (milliseconds == 0) return "calculating...";
+
+    uint64_t seconds = milliseconds / 1000;
+    uint64_t minutes = seconds / 60;
+    uint64_t hours = minutes / 60;
+    uint64_t days = hours / 24;
+
+    std::string result;
+
+    if (days > 0) {
+        result += std::to_string(days) + "d ";
+        hours %= 24;
+    }
+    if (hours > 0 || days > 0) {
+        result += std::to_string(hours) + "h ";
+        minutes %= 60;
+    }
+    if (minutes > 0 || hours > 0 || days > 0) {
+        result += std::to_string(minutes) + "m ";
+        seconds %= 60;
+    }
+    result += std::to_string(seconds) + "s";
+
+    return result;
+}
 
 void test_goldbach_conjecture() {
     // Test with reasonable ranges first
@@ -380,13 +408,20 @@ void goldbach_conjecture_test(uint64_t start, uint64_t end, uint64_t step = 2) {
                 uint64_t current_processed = processed.load();
                 uint64_t current_percentage = (current_processed * 100) / total_numbers;
 
+                // Calculate estimated time remaining
+                uint64_t remaining_numbers = total_numbers - current_processed;
+                uint64_t rate_per_second = (current_processed * 1000) / std::max(1ll, (long long)overall_elapsed.count());
+                uint64_t estimated_ms_remaining = (remaining_numbers * 1000) / std::max(1ull, rate_per_second);
+                std::string time_remaining = format_time_remaining(estimated_ms_remaining);
+
                 std::cout << "\rProgress: " << std::setw(3) << current_percentage
                     << "% (" << current_processed << "/" << total_numbers << ") Cache: "
                     << prime_cache.size() << " primes, "
                     << non_prime_cache.size() << " non-primes | Primes list: "
                     << known_primes.size() << " | Total: "
                     << overall_elapsed.count() << "ms | Rate: "
-                    << (current_processed * 1000) / std::max(1ll, (long long)overall_elapsed.count()) << " nums/sec" << std::flush;
+                    << rate_per_second << " nums/sec | ETA: "
+                    << time_remaining << std::flush;
 
                 last_log_time = current_time;
             }
