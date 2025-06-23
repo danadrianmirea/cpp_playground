@@ -6,6 +6,42 @@
 #include <stdexcept>
 #include <cmath>
 #include <random>
+#include <unordered_set>
+
+// Forward declaration
+bool miller_rabin(uint64_t n, int k);
+
+// Global cache for prime numbers
+std::unordered_set<uint64_t> prime_cache;
+std::unordered_set<uint64_t> non_prime_cache;
+
+// Cached primality test
+bool is_prime_cached(uint64_t n) {
+    if (n <= 1) return false;
+    if (n <= 3) return true;
+    if (n % 2 == 0) return false;
+
+    // Check cache first
+    if (prime_cache.find(n) != prime_cache.end()) {
+        return true;
+    }
+    if (non_prime_cache.find(n) != non_prime_cache.end()) {
+        return false;
+    }
+
+    // Perform Miller-Rabin test
+    bool result = miller_rabin(n, 5);
+
+    // Cache the result
+    if (result) {
+        prime_cache.insert(n);
+    }
+    else {
+        non_prime_cache.insert(n);
+    }
+
+    return result;
+}
 
 // Miller-Rabin primality test for large numbers
 bool miller_rabin(uint64_t n, int k = 5) {
@@ -68,7 +104,7 @@ std::vector<uint64_t> segmented_sieve(uint64_t start, uint64_t end) {
 
         // Mark multiples of small primes
         for (uint64_t p = 2; p * p <= segment_end; p++) {
-            if (p > 2 && !miller_rabin(p)) continue; // Skip non-primes
+            if (p > 2 && !is_prime_cached(p)) continue; // Use cached primality test
 
             uint64_t first_multiple = std::max(p * p, ((segment_start + p - 1) / p) * p);
             for (uint64_t i = first_multiple; i <= segment_end; i += p) {
@@ -98,25 +134,25 @@ bool test_goldbach(uint64_t n) {
         std::vector<uint64_t> primes = segmented_sieve(2, n);
         for (uint64_t p : primes) {
             if (p > n / 2) break;
-            if (miller_rabin(n - p)) {
+            if (is_prime_cached(n - p)) {
                 return true;
             }
         }
     }
     else {
-        // For large numbers, test primes up to sqrt(n) using Miller-Rabin
+        // For large numbers, test primes up to sqrt(n) using cached Miller-Rabin
         uint64_t limit = std::min(n / 2, (uint64_t)std::sqrt(n) + 1000);
 
         // Test small primes first
         for (uint64_t p = 2; p <= std::min(limit, (uint64_t)1000); p++) {
-            if (miller_rabin(p) && miller_rabin(n - p)) {
+            if (is_prime_cached(p) && is_prime_cached(n - p)) {
                 return true;
             }
         }
 
         // Test larger potential primes
         for (uint64_t p = 1001; p <= limit; p += 2) {
-            if (miller_rabin(p) && miller_rabin(n - p)) {
+            if (is_prime_cached(p) && is_prime_cached(n - p)) {
                 return true;
             }
         }
@@ -128,6 +164,10 @@ bool test_goldbach(uint64_t n) {
 void goldbach_conjecture_test(uint64_t start, uint64_t end, uint64_t step = 2) {
     std::cout << "Testing Goldbach conjecture from " << start << " to " << end << std::endl;
     std::cout << "Step size: " << step << std::endl;
+
+    // Clear caches at the start
+    prime_cache.clear();
+    non_prime_cache.clear();
 
     uint64_t total_numbers = (end - start) / step + 1;
     uint64_t processed = 0;
@@ -143,12 +183,16 @@ void goldbach_conjecture_test(uint64_t start, uint64_t end, uint64_t step = 2) {
         uint64_t current_percentage = (processed * 100) / total_numbers;
         if (current_percentage > last_percentage) {
             std::cout << "\rProgress: " << std::setw(3) << current_percentage
-                << "% (" << n << "/" << end << ")" << std::flush;
+                << "% (" << n << "/" << end << ") Cache: "
+                << prime_cache.size() << " primes, "
+                << non_prime_cache.size() << " non-primes" << std::flush;
             last_percentage = current_percentage;
         }
     }
 
     std::cout << "\n\nGoldbach conjecture holds from " << start << " to " << end << std::endl;
+    std::cout << "Final cache stats: " << prime_cache.size() << " primes, "
+        << non_prime_cache.size() << " non-primes cached" << std::endl;
 }
 
 int main() {
