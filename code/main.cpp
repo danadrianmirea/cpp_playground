@@ -1,7 +1,7 @@
 #include <iostream>
-#include "goldbach_prime_cached.hpp"
 
 int main() {
-    test_goldbach_conjecture_cached();
+    const int a = 3;
+    std::cout << a << std::endl;
     return 0;
 }
