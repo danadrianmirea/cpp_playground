@@ -1,7 +1,7 @@
 #include <iostream>
+#include "const_init.hpp"
 
 int main() {
-    const int a = 3;
-    std::cout << a << std::endl;
+    const_init();
     return 0;
 }
