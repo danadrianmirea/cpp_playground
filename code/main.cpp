@@ -1,9 +1,9 @@
 #include <iostream>
-#include "lambdaexpressions.hpp"
+#include "braceInit.hpp"
 
 int main() {
-    // Demonstrate lambda expressions
-    lambda_examples::demonstrate_lambda_expressions();
+    // Demonstrate brace initialization
+    brace_init_examples::demonstrate_brace_initialization();
     
     return 0;
 }
