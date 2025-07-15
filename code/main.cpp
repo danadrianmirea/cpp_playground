@@ -1,9 +1,9 @@
 #include <iostream>
-#include "braceInit.hpp"
+#include "strongEnums.hpp"
 
 int main() {
-    // Demonstrate brace initialization
-    brace_init_examples::demonstrate_brace_initialization();
+    // Demonstrate strongly typed enums
+    strong_enum_examples::demonstrate_strong_enums();
     
     return 0;
 }
