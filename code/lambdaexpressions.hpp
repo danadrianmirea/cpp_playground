@@ -11,6 +11,7 @@
 #include <memory>
 #include <thread>
 #include <chrono>
+#include <future>
 #include <numeric>
 #include <cmath>
 
@@ -42,7 +43,7 @@ namespace lambda_examples {
         
         // Lambda with different return types
         auto is_even = [](int n) -> bool { return n % 2 == 0; };
-        auto get_string = [](int n) -> std::string { 
+        auto get_string = [is_even](int n) -> std::string { 
             return is_even(n) ? "even" : "odd"; 
         };
         std::cout << "4 is " << get_string(4) << std::endl;
@@ -368,7 +369,7 @@ namespace lambda_examples {
         
         // Lambda with conditional capture
         bool use_advanced = true;
-        auto conditional_lambda = [use_advanced](int x) {
+        auto conditional_lambda = [use_advanced](int x) -> std::function<int(int)> {
             if (use_advanced) {
                 return [x](int y) { return x * y + x + y; };
             } else {
@@ -403,40 +404,63 @@ namespace lambda_examples {
         std::cout << "Safe division 10/0: " << safe_divide(10, 0) << std::endl;
     }
 
-    // Lambda with templates
+    // Lambda with templates (C++11 style)
     void template_lambda_examples() {
         std::cout << "\n=== Template Lambda Examples ===" << std::endl;
         
-        // Generic lambda (C++14 style, but showing concept)
-        auto generic_add = [](auto a, auto b) { return a + b; };
+        // Lambda with std::function for generic behavior
+        std::function<int(int, int)> int_add = [](int a, int b) { return a + b; };
+        std::function<double(double, double)> double_add = [](double a, double b) { return a + b; };
+        std::function<std::string(const std::string&, const std::string&)> string_add = 
+            [](const std::string& a, const std::string& b) { return a + b; };
         
-        std::cout << "Generic add (int): " << generic_add(5, 3) << std::endl;
-        std::cout << "Generic add (double): " << generic_add(3.14, 2.86) << std::endl;
-        std::cout << "Generic add (string): " << generic_add(std::string("Hello "), std::string("World")) << std::endl;
+        std::cout << "Int add: " << int_add(5, 3) << std::endl;
+        std::cout << "Double add: " << double_add(3.14, 2.86) << std::endl;
+        std::cout << "String add: " << string_add("Hello ", "World") << std::endl;
         
-        // Lambda with type deduction
-        auto type_info = [](const auto& value) {
-            std::cout << "Type: " << typeid(value).name() << ", Value: " << value << std::endl;
+        // Lambda with type deduction using decltype
+        auto x = 42;
+        auto y = 3.14;
+        auto z = std::string("Hello");
+        
+        auto type_info_int = [](int value) {
+            std::cout << "Type: int, Value: " << value << std::endl;
+        };
+        auto type_info_double = [](double value) {
+            std::cout << "Type: double, Value: " << value << std::endl;
+        };
+        auto type_info_string = [](const std::string& value) {
+            std::cout << "Type: string, Value: " << value << std::endl;
         };
         
-        type_info(42);
-        type_info(3.14);
-        type_info("Hello");
+        type_info_int(x);
+        type_info_double(y);
+        type_info_string(z);
         
-        // Lambda with container operations
-        auto print_container = [](const auto& container) {
-            std::cout << "Container elements: ";
-            for (const auto& element : container) {
-                std::cout << element << " ";
-            }
-            std::cout << std::endl;
-        };
+        // Lambda with container operations using std::function
+        std::function<void(const std::vector<int>&)> print_int_container = 
+            [](const std::vector<int>& container) {
+                std::cout << "Int container elements: ";
+                for (const auto& element : container) {
+                    std::cout << element << " ";
+                }
+                std::cout << std::endl;
+            };
+        
+        std::function<void(const std::vector<std::string>&)> print_string_container = 
+            [](const std::vector<std::string>& container) {
+                std::cout << "String container elements: ";
+                for (const auto& element : container) {
+                    std::cout << element << " ";
+                }
+                std::cout << std::endl;
+            };
         
         std::vector<int> int_vec = {1, 2, 3, 4, 5};
         std::vector<std::string> str_vec = {"a", "b", "c"};
         
-        print_container(int_vec);
-        print_container(str_vec);
+        print_int_container(int_vec);
+        print_string_container(str_vec);
     }
 
     // Main demonstration function
