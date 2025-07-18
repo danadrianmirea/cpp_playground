@@ -1,7 +1,7 @@
 #include <iostream>
-#include "vectorInit.hpp"
+#include "defctVscopyctVsAssignOp.hpp"
 
 int main() {
-    testVectorInit();
+    TestClassConstructorAndAssignOp();
     return 0;   
 }
