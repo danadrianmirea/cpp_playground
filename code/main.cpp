@@ -3,5 +3,5 @@
 
 int main() {
     TestCallByRef();
-    return 0;   
+    return 0;
 }
