@@ -1,7 +1,7 @@
 #include <iostream>
-#include "expShortCircuit.hpp"
+#include "callByRef.hpp"
 
 int main() {
-    TestExpShortCircuit();
+    TestCallByRef();
     return 0;   
 }
