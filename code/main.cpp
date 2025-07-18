@@ -1,7 +1,7 @@
 #include <iostream>
-#include "defctVscopyctVsAssignOp.hpp"
+#include "expShortCircuit.hpp"
 
 int main() {
-    TestClassConstructorAndAssignOp();
+    TestExpShortCircuit();
     return 0;   
 }
