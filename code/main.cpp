@@ -1,5 +1,7 @@
 #include <iostream>
+#include "vectorInit.hpp"
 
 int main() {
-    return 0;
+    testVectorInit();
+    return 0;   
 }
