@@ -1,6 +1,6 @@
-#include <iostream>
+#include "variableTemplates.hpp"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    demoVariableTemplates();
     return 0;
 }
