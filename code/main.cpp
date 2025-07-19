@@ -1,6 +1,5 @@
-#include "variableTemplates.hpp"
+#include <iostream>
 
 int main() {
-    demoVariableTemplates();
     return 0;
 }
