@@ -1,8 +1,9 @@
 // main.cpp
 
 #include "constexprExamples.hpp"
+#include "decltypeExamples.hpp"
 
 int main() {
-    constexpr_examples::demoConstExprFeatures();
+    decltype_examples::demoDecltypeFeatures();
     return 0;
 }
