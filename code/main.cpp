@@ -1,6 +1,7 @@
 #include <iostream>
+#include "constexprExamples.hpp"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    constexpr_examples::demoConstExprFeatures();
     return 0;
 }
