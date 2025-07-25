@@ -1,6 +1,6 @@
-#include "variadicTemplates.hpp"
+#include "staticAsserts.hpp"
 
 int main() {
-    variadic_template_examples::demoVariadicTemplates();
+    static_assert_examples::demoStaticAsserts();
     return 0;
 }
