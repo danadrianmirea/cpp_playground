@@ -1,6 +1,6 @@
-#include "tuplesExample.hpp"
+#include "stdThreadDemo.hpp"
 
 int main() {
-    tuples_examples::demoTuples();
+    std_thread_examples::demoStdThread();
     return 0;
 }
