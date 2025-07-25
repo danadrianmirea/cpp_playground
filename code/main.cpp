@@ -1,6 +1,6 @@
-#include "typeTraits.hpp"
+#include "tuplesExample.hpp"
 
 int main() {
-    type_traits_examples::demoTypeTraits();
+    tuples_examples::demoTuples();
     return 0;
 }
