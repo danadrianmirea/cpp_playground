@@ -1,6 +1,7 @@
 #include "atomicOperations.hpp"
+#include "trailingReturnTypes.hpp"
 
 int main() {
-    atomic_operations_examples::demoAtomicOperations();
+    trailing_return_examples::demoTrailingReturnTypes();
     return 0;
 }
