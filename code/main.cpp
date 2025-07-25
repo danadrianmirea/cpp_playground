@@ -1,6 +1,6 @@
-#include "synchronizationPrimitives.hpp"
+#include "atomicOperations.hpp"
 
 int main() {
-    synchronization_examples::demoSynchronizationPrimitives();
+    atomic_operations_examples::demoAtomicOperations();
     return 0;
 }
