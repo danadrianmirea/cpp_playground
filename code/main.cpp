@@ -1,6 +1,6 @@
-#include "delegatingConstructors.hpp"
+#include "typeTraits.hpp"
 
 int main() {
-    delegating_constructor_examples::demoDelegatingConstructors();
+    type_traits_examples::demoTypeTraits();
     return 0;
 }
