@@ -1,6 +1,6 @@
-#include "futurePromiseAsync.hpp"
+#include "smartPointers.hpp"
 
 int main() {
-    future_promise_async_examples::demoFuturePromiseAsync();
+    smart_pointer_examples::demoSmartPointers();
     return 0;
 }
