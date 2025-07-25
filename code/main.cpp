@@ -1,6 +1,6 @@
-#include "stdThreadDemo.hpp"
+#include "futurePromiseAsync.hpp"
 
 int main() {
-    std_thread_examples::demoStdThread();
+    future_promise_async_examples::demoFuturePromiseAsync();
     return 0;
 }
