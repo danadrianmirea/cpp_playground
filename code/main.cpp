@@ -1,8 +1,8 @@
 // main.cpp
 
-#include "trailingReturnTypes.hpp"
+#include "defaultedDeletedFunctions.hpp"
 
 int main() {
-    trailing_return_examples::demoTrailingReturnTypes();
+    defaulted_deleted_examples::demoDefaultedDeletedFunctions();
     return 0;
 }
