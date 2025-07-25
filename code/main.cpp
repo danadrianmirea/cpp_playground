@@ -1,6 +1,6 @@
-#include "smartPointers.hpp"
+#include "enableIfSfinae.hpp"
 
 int main() {
-    smart_pointer_examples::demoSmartPointers();
+    enable_if_sfinae_examples::demoEnableIfSfinae();
     return 0;
 }
