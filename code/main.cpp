@@ -1,6 +1,6 @@
-#include "stdFunctionExamples.hpp"
+#include "initialiserLists.hpp"
 
 int main() {
-    std_function_examples::demoStdFunction();
+    initialiser_lists_examples::demoInitialiserLists();
     return 0;
 }
