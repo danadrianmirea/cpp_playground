@@ -1,7 +1,6 @@
-#include "atomicOperations.hpp"
-#include "trailingReturnTypes.hpp"
+#include "containersDemo.hpp"
 
 int main() {
-    trailing_return_examples::demoTrailingReturnTypes();
+    containers_demo::demoContainers();
     return 0;
 }
