@@ -1,6 +1,6 @@
-#include "containersDemo.hpp"
+#include "stdFunctionExamples.hpp"
 
 int main() {
-    containers_demo::demoContainers();
+    std_function_examples::demoStdFunction();
     return 0;
 }
