@@ -1,8 +1,6 @@
-// main.cpp
-
-#include "defaultedDeletedFunctions.hpp"
+#include "variadicTemplates.hpp"
 
 int main() {
-    defaulted_deleted_examples::demoDefaultedDeletedFunctions();
+    variadic_template_examples::demoVariadicTemplates();
     return 0;
 }
