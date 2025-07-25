@@ -1,6 +1,6 @@
-#include "enableIfSfinae.hpp"
+#include "synchronizationPrimitives.hpp"
 
 int main() {
-    enable_if_sfinae_examples::demoEnableIfSfinae();
+    synchronization_examples::demoSynchronizationPrimitives();
     return 0;
 }
