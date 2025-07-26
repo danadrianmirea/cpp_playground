@@ -1,6 +1,6 @@
-#include "initialiserLists.hpp"
+#include "stdRegexExamples.hpp"
 
 int main() {
-    initialiser_lists_examples::demoInitialiserLists();
+    regex_examples::demoStdRegexExamples();
     return 0;
 }
