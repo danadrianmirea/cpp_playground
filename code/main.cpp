@@ -1,7 +1,7 @@
 #include <iostream>
-#include "integerSequenceDemo.hpp"
+#include "structuredBindings.hpp"
 
 int main() {
-    demo_integer_and_index_sequence();
+    demo_structured_bindings();
     return 0;
 }
