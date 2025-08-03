@@ -1,7 +1,7 @@
 #include <iostream>
-#include "sharedTimedMutexDemo.hpp"
+#include "stdExchangeDemo.hpp"
 
 int main() {
-    demo_shared_timed_mutex();
+    demo_std_exchange();
     return 0;
 }
