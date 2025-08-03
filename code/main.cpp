@@ -1,7 +1,7 @@
 #include <iostream>
-#include "templateArgDeduction.hpp"
+#include "attributes17.hpp"
 
 int main() {
-    demo_template_arg_deduction();
+    demo_attributes17();
     return 0;
 }
