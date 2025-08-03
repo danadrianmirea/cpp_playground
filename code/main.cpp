@@ -1,7 +1,7 @@
 #include <iostream>
-#include "inlineVariables.hpp"
+#include "constexprIf.hpp"
 
 int main() {
-    demo_inline_variables();
+    demo_constexpr_if();
     return 0;
 }
