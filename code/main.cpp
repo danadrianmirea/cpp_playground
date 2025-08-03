@@ -1,7 +1,7 @@
 #include <iostream>
-#include "asConstDemo.hpp"
+#include "scopedLockDemo.hpp"
 
 int main() {
-    demo_as_const();
+    demo_scoped_lock();
     return 0;
 }
