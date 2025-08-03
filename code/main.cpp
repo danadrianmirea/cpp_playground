@@ -1,7 +1,7 @@
 #include <iostream>
-#include "foldExpressions.hpp"
+#include "templateArgDeduction.hpp"
 
 int main() {
-    demo_fold_expressions();
+    demo_template_arg_deduction();
     return 0;
 }
