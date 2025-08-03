@@ -1,7 +1,7 @@
 #include <iostream>
-#include "structuredBindings.hpp"
+#include "ifSwitchInitializers.hpp"
 
 int main() {
-    demo_structured_bindings();
+    demo_if_switch_initializers();
     return 0;
 }
