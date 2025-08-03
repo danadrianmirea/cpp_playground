@@ -1,7 +1,7 @@
 #include <iostream>
-#include "attributes17.hpp"
+#include "nestedNamespaces.hpp"
 
 int main() {
-    demo_attributes17();
+    demo_nested_namespaces();
     return 0;
 }
