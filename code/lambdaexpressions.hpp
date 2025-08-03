@@ -463,6 +463,25 @@ namespace lambda_examples {
         print_string_container(str_vec);
     }
 
+    // C++17: Lambda this capture by value
+    class ThisCaptureDemo {
+        int value;
+    public:
+        ThisCaptureDemo(int v) : value(v) {}
+        void show_lambda_this_capture() const {
+            std::cout << "\n=== Lambda this capture by value (C++17) ===" << std::endl;
+            auto print_value = [*this]() {
+                std::cout << "Captured value: " << value << std::endl;
+            };
+            print_value();
+        }
+    };
+
+    inline void this_capture_by_value_example() {
+        ThisCaptureDemo demo(123);
+        demo.show_lambda_this_capture();
+    }
+
     // Main demonstration function
     void demonstrate_lambda_expressions() {
         std::cout << "C++11 Lambda Expression Examples\n" << std::endl;
@@ -477,6 +496,7 @@ namespace lambda_examples {
         smart_pointer_lambda_examples();
         complex_lambda_examples();
         template_lambda_examples();
+        this_capture_by_value_example(); // Added this line
         
         std::cout << "\n=== Lambda Expression Demonstration Complete ===" << std::endl;
     }
