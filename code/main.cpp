@@ -1,7 +1,7 @@
 #include <iostream>
-#include "stdExchangeDemo.hpp"
+#include "integerSequenceDemo.hpp"
 
 int main() {
-    demo_std_exchange();
+    demo_integer_and_index_sequence();
     return 0;
 }
