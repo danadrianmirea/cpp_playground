@@ -1,7 +1,7 @@
 #include <iostream>
-#include "sizeEmptyDataDemo.hpp"
+#include "asConstDemo.hpp"
 
 int main() {
-    demo_size_empty_data();
+    demo_as_const();
     return 0;
 }
