@@ -1,7 +1,7 @@
 #include <iostream>
-#include "constexprIf.hpp"
+#include "foldExpressions.hpp"
 
 int main() {
-    demo_constexpr_if();
+    demo_fold_expressions();
     return 0;
 }
