@@ -1,7 +1,7 @@
 #include <iostream>
-#include "ifSwitchInitializers.hpp"
+#include "inlineVariables.hpp"
 
 int main() {
-    demo_if_switch_initializers();
+    demo_inline_variables();
     return 0;
 }
