@@ -1,7 +1,7 @@
 #include <iostream>
-#include "filesystemDemo.hpp"
+#include "invokeApplyDemo.hpp"
 
 int main() {
-    demo_filesystem();
+    demo_invoke_apply();
     return 0;
 }
