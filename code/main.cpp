@@ -1,8 +1,7 @@
 #include <iostream>
-#include "stdQuotedExample.hpp"
+#include "sharedTimedMutexDemo.hpp"
 
 int main() {
-    test_std_quoted();
-    std::cout << "Hello, World!" << std::endl;
+    demo_shared_timed_mutex();
     return 0;
 }
