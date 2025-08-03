@@ -1,7 +1,7 @@
 #include <iostream>
-#include "nestedNamespaces.hpp"
+#include "staticAssertNoMsg.hpp"
 
 int main() {
-    demo_nested_namespaces();
+    demo_static_assert_no_msg();
     return 0;
 }
