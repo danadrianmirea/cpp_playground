@@ -1,7 +1,7 @@
 #include <iostream>
-#include "invokeApplyDemo.hpp"
+#include "sizeEmptyDataDemo.hpp"
 
 int main() {
-    demo_invoke_apply();
+    demo_size_empty_data();
     return 0;
 }
