@@ -1,7 +1,7 @@
 #include <iostream>
-#include "staticAssertNoMsg.hpp"
+#include "optionalVariantAny.hpp"
 
 int main() {
-    demo_static_assert_no_msg();
+    demo_optional_variant_any();
     return 0;
 }
