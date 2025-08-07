@@ -1,7 +1,7 @@
 #include <iostream>
-#include "scopedLockDemo.hpp"
+#include "requiresDemo.hpp"
 
 int main() {
-    demo_scoped_lock();
+    demo_requires();
     return 0;
 }
