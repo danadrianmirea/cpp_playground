@@ -1,7 +1,7 @@
 #include <iostream>
-#include "requiresDemo.hpp"
+#include "constEvalInit.hpp"
 
 int main() {
-    demo_requires();
+    demo_constEvalInit();
     return 0;
 }
