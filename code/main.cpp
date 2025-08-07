@@ -1,7 +1,7 @@
 #include <iostream>
-#include "constEvalInit.hpp"
+#include "templateAuto.hpp"
 
 int main() {
-    demo_constEvalInit();
+    demo_templateAuto();
     return 0;
 }
