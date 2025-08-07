@@ -1,6 +1,6 @@
-#include "designatedInitializers.hpp"
+#include "likelyUnlikely.hpp"
 
 int main() {
-    demo_designatedInitializers();
+    demo_likelyUnlikely();
     return 0;
 }
