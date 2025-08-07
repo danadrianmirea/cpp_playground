@@ -1,7 +1,6 @@
-#include <iostream>
-#include "templateAuto.hpp"
+#include "abvFuncTemplates.hpp"
 
 int main() {
-    demo_templateAuto();
+    demo_abvFuncTemplates();
     return 0;
 }
