@@ -1,6 +1,6 @@
-#include "likelyUnlikely.hpp"
+#include "spaceshipOperator.hpp"
 
 int main() {
-    demo_likelyUnlikely();
+    demo_spaceshipOperator();
     return 0;
 }
