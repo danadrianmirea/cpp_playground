@@ -1,6 +1,6 @@
-#include "spaceshipOperator.hpp"
+#include "coroutines.hpp"
 
 int main() {
-    demo_spaceshipOperator();
+    demo_coroutines();
     return 0;
 }
