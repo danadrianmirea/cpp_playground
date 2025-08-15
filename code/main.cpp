@@ -1,6 +1,6 @@
-#include "coroutines.hpp"
+#include "stdRanges.hpp"
 
 int main() {
-    demo_coroutines();
+    stdRangesDemo::demo_ranges();
     return 0;
 }
