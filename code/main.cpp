@@ -1,6 +1,6 @@
-#include "stdSemaphores.hpp"
+#include "chronoCalendarDemo.hpp"
 
 int main() {
-    stdSemaphores::demo_semaphores();
+    chronoCalendarDemo::demo_calendar_and_timezone();
     return 0;
 }
