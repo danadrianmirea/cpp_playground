@@ -1,6 +1,6 @@
-#include "stdRanges.hpp"
+#include "jThreadDemo.hpp"
 
 int main() {
-    stdRangesDemo::demo_ranges();
+    jThreadDemo::demo_jthread();
     return 0;
 }
