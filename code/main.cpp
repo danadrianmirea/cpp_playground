@@ -1,6 +1,6 @@
-#include "jThreadDemo.hpp"
+#include "stdSemaphores.hpp"
 
 int main() {
-    jThreadDemo::demo_jthread();
+    stdSemaphores::demo_semaphores();
     return 0;
 }
