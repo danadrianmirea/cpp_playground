@@ -1,6 +1,6 @@
-#include "chronoCalendarDemo.hpp"
+#include "stdMathUtility.hpp"
 
 int main() {
-    chronoCalendarDemo::demo_calendar_and_timezone();
+    stdMathUtility::demo_math_utility();
     return 0;
 }
