@@ -1,6 +1,6 @@
-#include "stdMathUtility.hpp"
+#include "deducingThisDemo.hpp"
 
 int main() {
-    stdMathUtility::demo_math_utility();
+    deducing_this_demo::demo_deducing_this();
     return 0;
 }
