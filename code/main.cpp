@@ -1,6 +1,6 @@
-#include "deducingThisDemo.hpp"
+#include "perfectForwarding.hpp"
 
 int main() {
-    deducing_this_demo::demo_deducing_this();
+    perfect_forwarding_demo::demo_perfect_forwarding();
     return 0;
 }
