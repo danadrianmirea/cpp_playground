@@ -1,6 +1,6 @@
-#include "perfectForwarding.hpp"
+#include "modernPolymorphicPatterns.hpp"
 
 int main() {
-    perfect_forwarding_demo::demo_perfect_forwarding();
+    modern_polymorphic_patterns::demo_modern_polymorphic_patterns();
     return 0;
 }
