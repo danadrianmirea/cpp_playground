@@ -1,6 +1,6 @@
-#include "stdGenerator.hpp"
+#include "stdSpan.hpp"
 
 int main() {
-    std_generator_demo::demo_std_generator();
+    std_span_demo::demo_std_span();
     return 0;
 }
