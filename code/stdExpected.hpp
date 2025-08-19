@@ -12,10 +12,11 @@
 #include <fstream>
 #include <sstream>
 #include <thread>
+#include <cmath>
+#include <climits>
 
-// Note: std::expected is a C++23 feature
-// In a real C++23 environment, you would include:
-// #include <expected>
+// Note: Using custom Expected implementation compatible with std::expected interface
+// In a full C++23 environment with std::expected support, you would use std::expected<T, E>
 
 namespace std_expected_demo {
 
@@ -72,7 +73,7 @@ std::string to_string(NetworkError error) {
     }
 }
 
-// Simple expected implementation for demonstration
+// std::expected compatible implementation
 // In C++23, you would use std::expected<T, E>
 template<typename T, typename E>
 class Expected {
@@ -143,9 +144,12 @@ public:
         return *this;
     }
     
-    // Access methods
+    // std::expected compatible interface
     bool has_value() const { return has_value_; }
     bool has_error() const { return !has_value_; }
+    
+    // std::expected uses operator bool() for checking
+    explicit operator bool() const { return has_value_; }
     
     T& value() {
         if (!has_value_) {
@@ -175,7 +179,7 @@ public:
         return error_;
     }
     
-    // Dereference operators
+    // Dereference operators (std::expected compatible)
     T& operator*() { return value(); }
     const T& operator*() const { return value(); }
     
@@ -187,7 +191,7 @@ public:
         return has_value_ ? value_ : default_value;
     }
     
-    // Transform methods
+    // std::expected transform method
     template<typename F>
     auto transform(F&& f) const -> Expected<decltype(f(value_)), E> {
         if (has_value_) {
@@ -197,6 +201,7 @@ public:
         }
     }
     
+    // std::expected and_then method
     template<typename F>
     auto and_then(F&& f) const -> decltype(f(value_)) {
         if (has_value_) {
@@ -206,6 +211,7 @@ public:
         }
     }
     
+    // std::expected or_else method
     template<typename F>
     auto or_else(F&& f) const -> Expected<T, decltype(f(error_))> {
         if (has_value_) {
@@ -213,6 +219,18 @@ public:
         } else {
             return f(error_);
         }
+    }
+    
+    // std::expected map method (alias for transform)
+    template<typename F>
+    auto map(F&& f) const -> Expected<decltype(f(value_)), E> {
+        return transform(std::forward<F>(f));
+    }
+    
+    // std::expected flat_map method (alias for and_then)
+    template<typename F>
+    auto flat_map(F&& f) const -> decltype(f(value_)) {
+        return and_then(std::forward<F>(f));
     }
 };
 
@@ -459,8 +477,8 @@ Expected<User, UserError> find_user_by_id(int id) {
 // Main demonstration function
 inline void demo_std_expected() {
     std::cout << "=== std::expected (C++23) Demonstration ===" << std::endl;
-    std::cout << "Note: This is a demonstration using a custom Expected implementation" << std::endl;
-    std::cout << "In C++23, you would use std::expected<T, E>" << std::endl;
+    std::cout << "Note: Using std::expected compatible implementation" << std::endl;
+    std::cout << "In C++23, you would use std::expected<T, E> directly" << std::endl;
     
     std::cout << "\n--- 1. Basic Arithmetic Operations ---" << std::endl;
     print_expected("10 / 2", safe_divide(10.0, 2.0));
@@ -527,6 +545,23 @@ inline void demo_std_expected() {
     auto chained = safe_sqrt(16)
         .and_then([](int x) { return safe_factorial(x); });
     print_expected("factorial(sqrt(16))", chained);
+    
+    std::cout << "\n--- 11. std::expected Interface Compatibility ---" << std::endl;
+    // Using operator bool() for checking
+    auto bool_check_result = safe_divide(10.0, 2.0);
+    if (bool_check_result) {
+        std::cout << "Result is valid: " << bool_check_result.value() << std::endl;
+    } else {
+        std::cout << "Result is error: " << to_string(bool_check_result.error()) << std::endl;
+    }
+    
+    // Using map (alias for transform)
+    auto mapped = safe_sqrt(25).map([](int x) { return "sqrt(25) = " + std::to_string(x); });
+    print_expected("map example", mapped);
+    
+    // Using flat_map (alias for and_then)
+    auto flat_mapped = safe_sqrt(9).flat_map([](int x) { return safe_factorial(x); });
+    print_expected("flat_map example", flat_mapped);
     
     std::cout << "\n=== Key Benefits of std::expected ===" << std::endl;
     std::cout << "1. Type-safe error handling without exceptions" << std::endl;
