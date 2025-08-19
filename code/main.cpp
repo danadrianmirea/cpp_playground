@@ -1,6 +1,6 @@
-#include "stdExecution.hpp"
+#include "stdGenerator.hpp"
 
 int main() {
-    std_execution_demo::demo_std_execution();
+    std_generator_demo::demo_std_generator();
     return 0;
 }
