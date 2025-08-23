@@ -1,6 +1,6 @@
-#include "ifConstevalDemo.hpp"
+#include "staticConstexprDemo.hpp"
 
 int main() {
-    if_consteval_demo::demo_if_consteval();
+    static_constexpr_demo::demo_static_constexpr();
     return 0;
 }
