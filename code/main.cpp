@@ -1,7 +1,6 @@
-
-#include "stdSpanStream.hpp"
+#include "enhancedLambdaTemplates.hpp"
 
 int main() {
-    std_spanstream_demo::demo_std_spanstream();
+    enhanced_lambda_templates::demo_enhanced_lambda_templates();
     return 0;
 }
