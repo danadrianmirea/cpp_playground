@@ -1,6 +1,6 @@
-#include "enhancedLambdaTemplates.hpp"
+#include "ifConstevalDemo.hpp"
 
 int main() {
-    enhanced_lambda_templates::demo_enhanced_lambda_templates();
+    if_consteval_demo::demo_if_consteval();
     return 0;
 }
