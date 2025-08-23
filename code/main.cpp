@@ -1,6 +1,7 @@
-#include "stdSpan.hpp"
+
+#include "stdSpanStream.hpp"
 
 int main() {
-    std_span_demo::demo_std_span();
+    std_spanstream_demo::demo_std_spanstream();
     return 0;
 }
