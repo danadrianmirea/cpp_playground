@@ -1,6 +1,6 @@
-#include "spaceshipOperator.hpp"
+#include "formatLibrary.hpp"
 
 int main() {
-    demo_spaceshipOperator();
+    format_library_demo::demo_format_library();
     return 0;
 }
