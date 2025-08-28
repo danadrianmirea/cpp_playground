@@ -1,6 +1,6 @@
-#include "staticConstexprDemo.hpp"
+#include "spaceshipOperator.hpp"
 
 int main() {
-    static_constexpr_demo::demo_static_constexpr();
+    demo_spaceshipOperator();
     return 0;
 }
