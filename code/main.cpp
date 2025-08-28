@@ -1,6 +1,6 @@
-#include "formatLibrary.hpp"
+#include "sourceLocation.hpp"
 
 int main() {
-    format_library_demo::demo_format_library();
+    source_location_demo::demo_source_location();
     return 0;
 }
