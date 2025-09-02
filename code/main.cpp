@@ -1,6 +1,6 @@
-#include "sourceLocation.hpp"
+#include "errorHandling.hpp"
 
 int main() {
-    source_location_demo::demo_source_location();
+    error_handling_demo::demo_error_handling();
     return 0;
 }
