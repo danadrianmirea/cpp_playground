@@ -1,6 +1,6 @@
-#include "errorHandling.hpp"
+#include "templateSpecialization.hpp"
 
 int main() {
-    error_handling_demo::demo_error_handling();
+    template_specialization_demo::demo_template_specialization();
     return 0;
 }
