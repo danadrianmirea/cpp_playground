@@ -1,6 +1,6 @@
-#include "templateSpecialization.hpp"
+#include "customAllocators.hpp"
 
 int main() {
-    template_specialization_demo::demo_template_specialization();
+    custom_allocators_demo::demo_custom_allocators();
     return 0;
 }
