@@ -1,6 +1,6 @@
-#include "customAllocators.hpp"
+#include "stdPrint.hpp"
 
 int main() {
-    custom_allocators_demo::demo_custom_allocators();
+    std_print_demo::demo_std_print();
     return 0;
 }
