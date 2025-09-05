@@ -8,6 +8,13 @@
 #include <cmath>
 #include <iomanip>
 #include <limits> // Required for std::numeric_limits
+#include <concepts>
+#include <type_traits>
+#include <memory>
+#include <chrono>
+#include <variant>
+#include <optional>
+#include <thread>
 
 // Demonstrates C++20 three-way comparison (operator<=>)
 struct Version {
@@ -184,6 +191,287 @@ inline std::ostream& operator<<(std::ostream& os, const Wrapper<T>& w) {
     return os;
 }
 
+// NEW: Advanced Complex Types with Custom Three-Way Comparisons
+
+// 1. Multi-dimensional Vector with configurable comparison strategy
+template<typename T, size_t N>
+class MultiVector {
+    std::array<T, N> data;
+    
+public:
+    template<typename... Args>
+    MultiVector(Args... args) : data{static_cast<T>(args)...} {}
+    
+    // Custom three-way comparison with different strategies
+    enum class ComparisonStrategy {
+        LEXICOGRAPHIC,      // Compare elements in order
+        MANHATTAN_DISTANCE, // Sum of absolute differences
+        EUCLIDEAN_DISTANCE, // Square root of sum of squares
+        MAX_COMPONENT       // Compare by maximum component
+    };
+    
+    std::strong_ordering operator<=>(const MultiVector& other) const {
+        return compare(other, ComparisonStrategy::LEXICOGRAPHIC);
+    }
+    
+    std::strong_ordering compare(const MultiVector& other, ComparisonStrategy strategy) const {
+        switch (strategy) {
+            case ComparisonStrategy::LEXICOGRAPHIC:
+                return compareLexicographic(other);
+            case ComparisonStrategy::MANHATTAN_DISTANCE:
+                return compareManhattan(other);
+            case ComparisonStrategy::EUCLIDEAN_DISTANCE:
+                return compareEuclidean(other);
+            case ComparisonStrategy::MAX_COMPONENT:
+                return compareMaxComponent(other);
+        }
+        return std::strong_ordering::equal;
+    }
+    
+private:
+    std::strong_ordering compareLexicographic(const MultiVector& other) const {
+        for (size_t i = 0; i < N; ++i) {
+            if (data[i] < other.data[i]) return std::strong_ordering::less;
+            if (data[i] > other.data[i]) return std::strong_ordering::greater;
+        }
+        return std::strong_ordering::equal;
+    }
+    
+    std::strong_ordering compareManhattan(const MultiVector& other) const {
+        T sum1 = 0, sum2 = 0;
+        for (size_t i = 0; i < N; ++i) {
+            sum1 += std::abs(data[i]);
+            sum2 += std::abs(other.data[i]);
+        }
+        if (sum1 < sum2) return std::strong_ordering::less;
+        if (sum1 > sum2) return std::strong_ordering::greater;
+        return std::strong_ordering::equal;
+    }
+    
+    std::strong_ordering compareEuclidean(const MultiVector& other) const {
+        T sum1 = 0, sum2 = 0;
+        for (size_t i = 0; i < N; ++i) {
+            sum1 += data[i] * data[i];
+            sum2 += other.data[i] * other.data[i];
+        }
+        if (sum1 < sum2) return std::strong_ordering::less;
+        if (sum1 > sum2) return std::strong_ordering::greater;
+        return std::strong_ordering::equal;
+    }
+    
+    std::strong_ordering compareMaxComponent(const MultiVector& other) const {
+        T max1 = *std::max_element(data.begin(), data.end());
+        T max2 = *std::max_element(other.data.begin(), other.data.end());
+        if (max1 < max2) return std::strong_ordering::less;
+        if (max1 > max2) return std::strong_ordering::greater;
+        return std::strong_ordering::equal;
+    }
+    
+public:
+    const T& operator[](size_t index) const { return data[index]; }
+    T& operator[](size_t index) { return data[index]; }
+    
+    friend std::ostream& operator<<(std::ostream& os, const MultiVector& mv) {
+        os << "[";
+        for (size_t i = 0; i < N; ++i) {
+            if (i > 0) os << ", ";
+            os << mv.data[i];
+        }
+        os << "]";
+        return os;
+    }
+};
+
+// 2. Smart Pointer Wrapper with Custom Comparison
+template<typename T>
+class SmartWrapper {
+    std::unique_ptr<T> ptr;
+    
+public:
+    SmartWrapper() = default;
+    SmartWrapper(T value) : ptr(std::make_unique<T>(std::move(value))) {}
+    SmartWrapper(std::unique_ptr<T> p) : ptr(std::move(p)) {}
+    
+    // Custom three-way comparison that handles nullptr cases
+    std::partial_ordering operator<=>(const SmartWrapper& other) const {
+        // nullptr is considered "unordered" in comparison
+        if (!ptr && !other.ptr) return std::partial_ordering::equivalent;
+        if (!ptr) return std::partial_ordering::unordered;
+        if (!other.ptr) return std::partial_ordering::unordered;
+        
+        // Compare actual values
+        if (*ptr < *other.ptr) return std::partial_ordering::less;
+        if (*ptr > *other.ptr) return std::partial_ordering::greater;
+        return std::partial_ordering::equivalent;
+    }
+    
+    bool operator==(const SmartWrapper& other) const {
+        if (!ptr && !other.ptr) return true;
+        if (!ptr || !other.ptr) return false;
+        return *ptr == *other.ptr;
+    }
+    
+    const T* get() const { return ptr.get(); }
+    T* get() { return ptr.get(); }
+    
+    friend std::ostream& operator<<(std::ostream& os, const SmartWrapper& sw) {
+        if (sw.ptr) {
+            os << *sw.ptr;
+        } else {
+            os << "nullptr";
+        }
+        return os;
+    }
+};
+
+// 3. Variant-based Type with Custom Comparison
+class VariantValue {
+    std::variant<int, double, std::string> value;
+    
+public:
+    VariantValue(int v) : value(v) {}
+    VariantValue(double v) : value(v) {}
+    VariantValue(std::string v) : value(std::move(v)) {}
+    
+    // Custom three-way comparison that handles different types
+    std::partial_ordering operator<=>(const VariantValue& other) const {
+        // If types don't match, try to convert for comparison
+        if (value.index() != other.value.index()) {
+            return compareDifferentTypes(other);
+        }
+        
+        // Same type comparison - handle each type explicitly
+        if (value.index() == 0) { // int
+            int a = std::get<int>(value);
+            int b = std::get<int>(other.value);
+            if (a < b) return std::partial_ordering::less;
+            if (a > b) return std::partial_ordering::greater;
+            return std::partial_ordering::equivalent;
+        } else if (value.index() == 1) { // double
+            double a = std::get<double>(value);
+            double b = std::get<double>(other.value);
+            if (std::isnan(a) || std::isnan(b)) return std::partial_ordering::unordered;
+            if (a < b) return std::partial_ordering::less;
+            if (a > b) return std::partial_ordering::greater;
+            return std::partial_ordering::equivalent;
+        } else if (value.index() == 2) { // string
+            const std::string& a = std::get<std::string>(value);
+            const std::string& b = std::get<std::string>(other.value);
+            if (a < b) return std::partial_ordering::less;
+            if (a > b) return std::partial_ordering::greater;
+            return std::partial_ordering::equivalent;
+        }
+        
+        return std::partial_ordering::unordered;
+    }
+    
+private:
+    std::partial_ordering compareDifferentTypes(const VariantValue& other) const {
+        // Try to convert to double for comparison
+        try {
+            double val1 = getAsDouble();
+            double val2 = other.getAsDouble();
+            
+            if (std::isnan(val1) || std::isnan(val2)) return std::partial_ordering::unordered;
+            if (val1 < val2) return std::partial_ordering::less;
+            if (val1 > val2) return std::partial_ordering::greater;
+            return std::partial_ordering::equivalent;
+        } catch (...) {
+            return std::partial_ordering::unordered;
+        }
+    }
+    
+    double getAsDouble() const {
+        return std::visit([](const auto& v) -> double {
+            if constexpr (std::is_same_v<std::decay_t<decltype(v)>, int>) return static_cast<double>(v);
+            else if constexpr (std::is_same_v<std::decay_t<decltype(v)>, double>) return v;
+            else if constexpr (std::is_same_v<std::decay_t<decltype(v)>, std::string>) {
+                try { return std::stod(v); }
+                catch (...) { return std::numeric_limits<double>::quiet_NaN(); }
+            }
+            else return std::numeric_limits<double>::quiet_NaN();
+        }, value);
+    }
+    
+public:
+    friend std::ostream& operator<<(std::ostream& os, const VariantValue& vv) {
+        std::visit([&os](const auto& val) { os << val; }, vv.value);
+        return os;
+    }
+};
+
+// 4. Concept-based Automatic Operator Generation
+template<typename T>
+concept HasSpaceship = requires(const T& a, const T& b) {
+    { a <=> b } -> std::convertible_to<std::strong_ordering>;
+};
+
+template<typename T>
+concept HasWeakSpaceship = requires(const T& a, const T& b) {
+    { a <=> b } -> std::convertible_to<std::weak_ordering>;
+};
+
+template<typename T>
+concept HasPartialSpaceship = requires(const T& a, const T& b) {
+    { a <=> b } -> std::convertible_to<std::partial_ordering>;
+};
+
+// Automatic operator generator using concepts
+template<typename T>
+requires HasSpaceship<T>
+class AutoComparable {
+    T value;
+    
+public:
+    AutoComparable(const T& v) : value(v) {}
+    
+    // Automatically generate all comparison operators
+    auto operator<=>(const AutoComparable& other) const = default;
+    bool operator==(const AutoComparable& other) const = default;
+    
+    const T& get() const { return value; }
+    
+    friend std::ostream& operator<<(std::ostream& os, const AutoComparable& ac) {
+        os << ac.value;
+        return os;
+    }
+};
+
+// 5. Time-based Comparison with Custom Ordering
+class Timestamp {
+    std::chrono::system_clock::time_point time;
+    std::string label;
+    
+public:
+    Timestamp(std::string lbl) : time(std::chrono::system_clock::now()), label(std::move(lbl)) {}
+    
+    // Custom three-way comparison by time
+    std::strong_ordering operator<=>(const Timestamp& other) const {
+        return time <=> other.time;
+    }
+    
+    // Custom comparison by label
+    std::weak_ordering compareByLabel(const Timestamp& other) const {
+        return label <=> other.label;
+    }
+    
+    // Custom comparison by time difference threshold
+    std::partial_ordering compareWithinThreshold(const Timestamp& other, 
+                                                std::chrono::milliseconds threshold) const {
+        auto diff = std::abs((time - other.time).count());
+        if (diff <= threshold.count()) {
+            return std::partial_ordering::equivalent;
+        }
+        return time <=> other.time;
+    }
+    
+    friend std::ostream& operator<<(std::ostream& os, const Timestamp& ts) {
+        auto time_t = std::chrono::system_clock::to_time_t(ts.time);
+        os << ts.label << "(" << std::ctime(&time_t) << ")";
+        return os;
+    }
+};
+
 // Utility function to demonstrate ordering types
 template<typename T>
 void demonstrateOrdering(const T& a, const T& b, const std::string& name) {
@@ -215,6 +503,78 @@ void demonstrateOrdering(const T& a, const T& b, const std::string& name) {
     std::cout << "a <= b: " << (a <= b) << "\n";
     std::cout << "a > b: " << (a > b) << "\n";
     std::cout << "a >= b: " << (a >= b) << "\n";
+}
+
+// NEW: Advanced demonstration functions
+void demonstrateAdvancedSpaceshipFeatures() {
+    std::cout << "\n=== Advanced Three-Way Comparison Features ===\n";
+    
+    // 1. MultiVector with different comparison strategies
+    std::cout << "\n--- MultiVector Comparison Strategies ---\n";
+    MultiVector<int, 3> mv1(1, 2, 3);
+    MultiVector<int, 3> mv2(3, 2, 1);
+    
+    std::cout << "mv1: " << mv1 << ", mv2: " << mv2 << "\n";
+    
+    // Lexicographic comparison (default)
+    auto lexResult = mv1.compare(mv2, MultiVector<int, 3>::ComparisonStrategy::LEXICOGRAPHIC);
+    std::cout << "Lexicographic: " << (lexResult == std::strong_ordering::less ? "mv1 < mv2" : "mv1 >= mv2") << "\n";
+    
+    // Manhattan distance comparison
+    auto manResult = mv1.compare(mv2, MultiVector<int, 3>::ComparisonStrategy::MANHATTAN_DISTANCE);
+    std::cout << "Manhattan: " << (manResult == std::strong_ordering::less ? "mv1 < mv2" : "mv1 >= mv2") << "\n";
+    
+    // Euclidean distance comparison
+    auto eucResult = mv1.compare(mv2, MultiVector<int, 3>::ComparisonStrategy::EUCLIDEAN_DISTANCE);
+    std::cout << "Euclidean: " << (eucResult == std::strong_ordering::less ? "mv1 < mv2" : "mv1 >= mv2") << "\n";
+    
+    // 2. Smart Pointer Wrapper
+    std::cout << "\n--- Smart Pointer Wrapper ---\n";
+    SmartWrapper<int> sw1(42);
+    SmartWrapper<int> sw2(100);
+    SmartWrapper<int> sw3; // nullptr
+    
+    demonstrateOrdering(sw1, sw2, "SmartWrapper<int> (with values)");
+    demonstrateOrdering(sw1, sw3, "SmartWrapper<int> (value vs nullptr)");
+    
+    // 3. Variant-based Type
+    std::cout << "\n--- Variant-based Type ---\n";
+    VariantValue vv1(42);
+    VariantValue vv2(42.0);
+    VariantValue vv3("42");
+    
+    demonstrateOrdering(vv1, vv2, "VariantValue (int vs double)");
+    demonstrateOrdering(vv2, vv3, "VariantValue (double vs string)");
+    
+    // 4. Concept-based AutoComparable
+    std::cout << "\n--- Concept-based AutoComparable ---\n";
+    AutoComparable<int> ac1(42);
+    AutoComparable<int> ac2(100);
+    
+    demonstrateOrdering(ac1, ac2, "AutoComparable<int>");
+    
+    // 5. Timestamp with Custom Ordering
+    std::cout << "\n--- Timestamp Custom Ordering ---\n";
+    Timestamp ts1("First");
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    Timestamp ts2("Second");
+    
+    demonstrateOrdering(ts1, ts2, "Timestamp (by time)");
+    
+    // Custom comparison by label
+    auto labelResult = ts1.compareByLabel(ts2);
+    std::cout << "ts1.compareByLabel(ts2): ";
+    if (labelResult == std::weak_ordering::less) std::cout << "ts1 label < ts2 label\n";
+    else if (labelResult == std::weak_ordering::greater) std::cout << "ts1 label > ts2 label\n";
+    else std::cout << "ts1 label == ts2 label\n";
+    
+    // Custom comparison within threshold
+    auto thresholdResult = ts1.compareWithinThreshold(ts2, std::chrono::milliseconds(50));
+    std::cout << "ts1.compareWithinThreshold(ts2, 50ms): ";
+    if (thresholdResult == std::partial_ordering::less) std::cout << "ts1 < ts2\n";
+    else if (thresholdResult == std::partial_ordering::greater) std::cout << "ts1 > ts2\n";
+    else if (thresholdResult == std::partial_ordering::equivalent) std::cout << "ts1 ≈ ts2 (within threshold)\n";
+    else std::cout << "ts1 ? ts2 (unordered)\n";
 }
 
 inline void demo_spaceshipOperator() {
@@ -326,4 +686,7 @@ inline void demo_spaceshipOperator() {
         std::cout << s.data << " ";
     }
     std::cout << "\n";
+    
+    // NEW: Demonstrate advanced features
+    demonstrateAdvancedSpaceshipFeatures();
 }
