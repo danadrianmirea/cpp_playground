@@ -1,6 +1,6 @@
-#include "stdNumbers.hpp"
+#include "stdSample.hpp"
 
 int main() {
-    stdNumbersDemo::demo_std_numbers();
+    stdSampleDemo::demo_std_sample();
     return 0;
 }
