@@ -1,6 +1,7 @@
 #include "stdPrint.hpp"
+#include "stdSearch.hpp"
 
 int main() {
-    std_print_demo::demo_std_print();
+    stdSearchDemo::demo_std_search();
     return 0;
 }
