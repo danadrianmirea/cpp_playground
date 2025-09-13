@@ -474,9 +474,269 @@ Expected<User, UserError> find_user_by_id(int id) {
     return UserError::UserNotFound;
 }
 
+// 9. Database operations simulation
+enum class DatabaseError {
+    ConnectionFailed,
+    QueryTimeout,
+    ConstraintViolation,
+    RecordNotFound,
+    TransactionFailed
+};
+
+std::string to_string(DatabaseError error) {
+    switch (error) {
+        case DatabaseError::ConnectionFailed: return "Database connection failed";
+        case DatabaseError::QueryTimeout: return "Query timeout";
+        case DatabaseError::ConstraintViolation: return "Constraint violation";
+        case DatabaseError::RecordNotFound: return "Record not found";
+        case DatabaseError::TransactionFailed: return "Transaction failed";
+        default: return "Unknown database error";
+    }
+}
+
+struct DatabaseRecord {
+    int id;
+    std::string name;
+    std::string value;
+    
+    DatabaseRecord(int i, const std::string& n, const std::string& v) 
+        : id(i), name(n), value(v) {}
+    
+    friend std::ostream& operator<<(std::ostream& os, const DatabaseRecord& record) {
+        return os << "Record{id=" << record.id << ", name='" << record.name 
+                  << "', value='" << record.value << "'}";
+    }
+};
+
+Expected<DatabaseRecord, DatabaseError> find_record(int id) {
+    if (id < 0) {
+        return DatabaseError::RecordNotFound;
+    }
+    if (id == 0) {
+        return DatabaseError::ConnectionFailed;
+    }
+    if (id > 1000) {
+        return DatabaseError::QueryTimeout;
+    }
+    if (id == 999) {
+        return DatabaseError::ConstraintViolation;
+    }
+    
+    return DatabaseRecord(id, "Record" + std::to_string(id), "Value" + std::to_string(id));
+}
+
+Expected<bool, DatabaseError> update_record(int id, const std::string& new_value) {
+    auto record = find_record(id);
+    if (record.has_error()) {
+        return record.error();
+    }
+    
+    if (new_value.empty()) {
+        return DatabaseError::ConstraintViolation;
+    }
+    
+    return true;
+}
+
+// 10. Configuration parsing
+enum class ConfigError {
+    FileNotFound,
+    InvalidFormat,
+    MissingKey,
+    InvalidValue,
+    ParseError
+};
+
+std::string to_string(ConfigError error) {
+    switch (error) {
+        case ConfigError::FileNotFound: return "Configuration file not found";
+        case ConfigError::InvalidFormat: return "Invalid configuration format";
+        case ConfigError::MissingKey: return "Missing required key";
+        case ConfigError::InvalidValue: return "Invalid value";
+        case ConfigError::ParseError: return "Parse error";
+        default: return "Unknown configuration error";
+    }
+}
+
+struct AppConfig {
+    std::string server_url;
+    int port;
+    bool debug_mode;
+    double timeout;
+    
+    AppConfig(const std::string& url, int p, bool debug, double t)
+        : server_url(url), port(p), debug_mode(debug), timeout(t) {}
+    
+    friend std::ostream& operator<<(std::ostream& os, const AppConfig& config) {
+        return os << "Config{url='" << config.server_url << "', port=" << config.port 
+                  << ", debug=" << config.debug_mode << ", timeout=" << config.timeout << "}";
+    }
+};
+
+Expected<AppConfig, ConfigError> parse_config(const std::string& config_data) {
+    if (config_data.empty()) {
+        return ConfigError::FileNotFound;
+    }
+    
+    // Simple parsing simulation
+    if (config_data.find("server_url") == std::string::npos) {
+        return ConfigError::MissingKey;
+    }
+    if (config_data.find("port") == std::string::npos) {
+        return ConfigError::MissingKey;
+    }
+    if (config_data.find("invalid") != std::string::npos) {
+        return ConfigError::InvalidFormat;
+    }
+    
+    return AppConfig("https://api.example.com", 8080, true, 30.0);
+}
+
+// 11. Memory management with expected
+enum class MemoryError {
+    OutOfMemory,
+    InvalidPointer,
+    AllocationFailed,
+    DeallocationFailed
+};
+
+std::string to_string(MemoryError error) {
+    switch (error) {
+        case MemoryError::OutOfMemory: return "Out of memory";
+        case MemoryError::InvalidPointer: return "Invalid pointer";
+        case MemoryError::AllocationFailed: return "Allocation failed";
+        case MemoryError::DeallocationFailed: return "Deallocation failed";
+        default: return "Unknown memory error";
+    }
+}
+
+Expected<std::unique_ptr<int[]>, MemoryError> allocate_array(size_t size) {
+    if (size == 0) {
+        return MemoryError::InvalidPointer;
+    }
+    if (size > 1000000) {
+        return MemoryError::OutOfMemory;
+    }
+    if (size == 999999) {
+        return MemoryError::AllocationFailed;
+    }
+    
+    try {
+        auto ptr = std::make_unique<int[]>(size);
+        return std::move(ptr);
+    } catch (const std::bad_alloc&) {
+        return MemoryError::OutOfMemory;
+    }
+}
+
+// 12. Validation and parsing
+enum class ValidationError {
+    EmptyValue,
+    InvalidFormat,
+    OutOfRange,
+    InvalidType,
+    ConstraintViolation
+};
+
+std::string to_string(ValidationError error) {
+    switch (error) {
+        case ValidationError::EmptyValue: return "Empty value";
+        case ValidationError::InvalidFormat: return "Invalid format";
+        case ValidationError::OutOfRange: return "Value out of range";
+        case ValidationError::InvalidType: return "Invalid type";
+        case ValidationError::ConstraintViolation: return "Constraint violation";
+        default: return "Unknown validation error";
+    }
+}
+
+Expected<int, ValidationError> parse_int(const std::string& str) {
+    if (str.empty()) {
+        return ValidationError::EmptyValue;
+    }
+    
+    try {
+        size_t pos;
+        int result = std::stoi(str, &pos);
+        if (pos != str.length()) {
+            return ValidationError::InvalidFormat;
+        }
+        return result;
+    } catch (const std::out_of_range&) {
+        return ValidationError::OutOfRange;
+    } catch (const std::invalid_argument&) {
+        return ValidationError::InvalidFormat;
+    }
+}
+
+Expected<double, ValidationError> parse_double(const std::string& str) {
+    if (str.empty()) {
+        return ValidationError::EmptyValue;
+    }
+    
+    try {
+        size_t pos;
+        double result = std::stod(str, &pos);
+        if (pos != str.length()) {
+            return ValidationError::InvalidFormat;
+        }
+        return result;
+    } catch (const std::out_of_range&) {
+        return ValidationError::OutOfRange;
+    } catch (const std::invalid_argument&) {
+        return ValidationError::InvalidFormat;
+    }
+}
+
+// 13. Error aggregation and collection
+template<typename T, typename E>
+Expected<std::vector<T>, std::vector<E>> collect_results(const std::vector<Expected<T, E>>& results) {
+    std::vector<T> values;
+    std::vector<E> errors;
+    
+    for (const auto& result : results) {
+        if (result.has_value()) {
+            values.push_back(result.value());
+        } else {
+            errors.push_back(result.error());
+        }
+    }
+    
+    if (errors.empty()) {
+        return values;
+    } else {
+        return errors;
+    }
+}
+
+// 14. Monadic operations with multiple expected values
+template<typename T, typename E>
+Expected<T, E> first_success(const std::vector<Expected<T, E>>& results) {
+    for (const auto& result : results) {
+        if (result.has_value()) {
+            return result;
+        }
+    }
+    
+    // Return first error if no success
+    return results.empty() ? Expected<T, E>(E{}) : results[0];
+}
+
+// 15. Timeout and async simulation
+Expected<std::string, NetworkError> fetch_with_timeout(const std::string& url, int timeout_ms) {
+    if (url == "slow.example.com") {
+        return NetworkError::Timeout;
+    }
+    if (url == "error.example.com") {
+        return NetworkError::ServerError;
+    }
+    
+    // Simulate successful fetch
+    return "Data from " + url + " (timeout: " + std::to_string(timeout_ms) + "ms)";
+}
+
 // Main demonstration function
 inline void demo_std_expected() {
-    std::cout << "=== std::expected (C++23) Demonstration ===" << std::endl;
+    std::cout << "=== std::expected (C++23) Comprehensive Demonstration ===" << std::endl;
     std::cout << "Note: Using std::expected compatible implementation" << std::endl;
     std::cout << "In C++23, you would use std::expected<T, E> directly" << std::endl;
     
@@ -532,12 +792,83 @@ inline void demo_std_expected() {
     print_expected("Find user 1", find_user_by_id(1));
     print_expected("Find user 999", find_user_by_id(999));
     
-    std::cout << "\n--- 9. Value or Default ---" << std::endl;
+    std::cout << "\n--- 9. Database Operations ---" << std::endl;
+    print_expected("Find record 1", find_record(1));
+    print_expected("Find record 0 (connection failed)", find_record(0));
+    print_expected("Find record 1500 (timeout)", find_record(1500));
+    print_expected("Update record 1", update_record(1, "New Value"));
+    print_expected("Update record 999 (constraint violation)", update_record(999, "New Value"));
+    
+    std::cout << "\n--- 10. Configuration Parsing ---" << std::endl;
+    print_expected("Parse valid config", parse_config("server_url=api.example.com\nport=8080"));
+    print_expected("Parse empty config", parse_config(""));
+    print_expected("Parse config missing key", parse_config("server_url=api.example.com"));
+    print_expected("Parse invalid config", parse_config("invalid format"));
+    
+    std::cout << "\n--- 11. Memory Management ---" << std::endl;
+    auto array_result = allocate_array(1000);
+    if (array_result.has_value()) {
+        std::cout << "Array allocation: SUCCESS - allocated " << 1000 << " elements" << std::endl;
+    } else {
+        std::cout << "Array allocation: ERROR - " << to_string(array_result.error()) << std::endl;
+    }
+    
+    print_expected("Allocate huge array", allocate_array(2000000));
+    print_expected("Allocate zero array", allocate_array(0));
+    
+    std::cout << "\n--- 12. Validation and Parsing ---" << std::endl;
+    print_expected("Parse int '42'", parse_int("42"));
+    print_expected("Parse int 'abc'", parse_int("abc"));
+    print_expected("Parse int ''", parse_int(""));
+    print_expected("Parse double '3.14'", parse_double("3.14"));
+    print_expected("Parse double 'invalid'", parse_double("invalid"));
+    
+    std::cout << "\n--- 13. Error Aggregation ---" << std::endl;
+    std::vector<Expected<int, MathError>> math_results = {
+        safe_sqrt(16),
+        safe_sqrt(-1),
+        safe_sqrt(25),
+        safe_sqrt(36)
+    };
+    
+    auto collected = collect_results(math_results);
+    if (collected.has_value()) {
+        std::cout << "Collected values: [";
+        for (size_t i = 0; i < collected.value().size(); ++i) {
+            if (i > 0) std::cout << ", ";
+            std::cout << collected.value()[i];
+        }
+        std::cout << "]" << std::endl;
+    } else {
+        std::cout << "Collected errors: [";
+        for (size_t i = 0; i < collected.error().size(); ++i) {
+            if (i > 0) std::cout << ", ";
+            std::cout << to_string(collected.error()[i]);
+        }
+        std::cout << "]" << std::endl;
+    }
+    
+    std::cout << "\n--- 14. First Success Pattern ---" << std::endl;
+    std::vector<Expected<std::string, NetworkError>> network_results = {
+        fetch_data("error.example.com"),
+        fetch_data("timeout.example.com"),
+        fetch_data("success.example.com"),
+        fetch_data("another-error.example.com")
+    };
+    
+    auto first_success_result = first_success(network_results);
+    print_expected("First successful network call", first_success_result);
+    
+    std::cout << "\n--- 15. Timeout Operations ---" << std::endl;
+    print_expected("Fetch with 1000ms timeout", fetch_with_timeout("normal.example.com", 1000));
+    print_expected("Fetch slow with 500ms timeout", fetch_with_timeout("slow.example.com", 500));
+    
+    std::cout << "\n--- 16. Value or Default ---" << std::endl;
     auto divide_result = safe_divide(10.0, 0.0);
     double result = divide_result.value_or(0.0);
     std::cout << "10 / 0 with default: " << result << std::endl;
     
-    std::cout << "\n--- 10. Transform and And-Then ---" << std::endl;
+    std::cout << "\n--- 17. Transform and And-Then ---" << std::endl;
     auto sqrt_result = safe_sqrt(16);
     auto transformed = sqrt_result.transform([](int x) { return x * 2; });
     print_expected("sqrt(16) * 2", transformed);
@@ -546,7 +877,7 @@ inline void demo_std_expected() {
         .and_then([](int x) { return safe_factorial(x); });
     print_expected("factorial(sqrt(16))", chained);
     
-    std::cout << "\n--- 11. std::expected Interface Compatibility ---" << std::endl;
+    std::cout << "\n--- 18. std::expected Interface Compatibility ---" << std::endl;
     // Using operator bool() for checking
     auto bool_check_result = safe_divide(10.0, 2.0);
     if (bool_check_result) {
@@ -572,6 +903,8 @@ inline void demo_std_expected() {
     std::cout << "6. Composable error handling with transform/and_then/or_else" << std::endl;
     std::cout << "7. No hidden control flow like exceptions" << std::endl;
     std::cout << "8. Works well with constexpr and template metaprogramming" << std::endl;
+    std::cout << "9. Excellent for API design and error propagation" << std::endl;
+    std::cout << "10. Enables functional error handling patterns" << std::endl;
 }
 
 } // namespace std_expected_demo

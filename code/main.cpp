@@ -1,6 +1,6 @@
-#include "stdSample.hpp"
+#include "stdExpected.hpp"
 
 int main() {
-    stdSampleDemo::demo_std_sample();
+    std_expected_demo::demo_std_expected();
     return 0;
 }
