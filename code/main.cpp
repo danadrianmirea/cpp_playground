@@ -1,6 +1,6 @@
-#include "stdExpected.hpp"
+#include "curiouslyRecTemplatePattern.hpp"
 
 int main() {
-    std_expected_demo::demo_std_expected();
+    crtp_demo::demo_crtp_patterns();
     return 0;
 }
