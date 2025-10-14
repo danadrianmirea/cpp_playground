@@ -1,6 +1,6 @@
-#include "curiouslyRecTemplatePattern.hpp"
+#include "stdHash.hpp"
 
 int main() {
-    crtp_demo::demo_crtp_patterns();
+    stdhash_demo::test_std_hash();
     return 0;
 }
