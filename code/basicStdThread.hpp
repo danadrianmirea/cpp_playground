@@ -19,6 +19,7 @@ namespace basicStdThreadDemo
     void TestThread()
     {
         std::thread worker(ThreadFunction);
+        worker.detach();
 
         for (int i = 0; i < 3; ++i)
         {
