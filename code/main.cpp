@@ -1,7 +1,7 @@
 #include <iostream>
-#include "basicStdThread.hpp"
+#include "demo_mdspan.hpp"
 
 int main() {
-    basicStdThreadDemo::TestThread();
+    demo_mdspan::Demo_mdspan();
     return 0;
 }
