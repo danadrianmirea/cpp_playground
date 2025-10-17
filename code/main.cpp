@@ -1,7 +1,7 @@
 #include <iostream>
-#include "demo_mdspan.hpp"
+#include "stdMoveOnlyFunction.hpp"
 
 int main() {
-    demo_mdspan::Demo_mdspan();
+    move_only_fn_demo::demo_move_only_function();
     return 0;
 }
