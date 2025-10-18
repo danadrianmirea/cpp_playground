@@ -163,40 +163,6 @@ namespace adi_sorting_algos
         }
     }    
 
-    inline int testInsertionSort()
-    {
-        std::cout << "Program start: \n";
-
-        srand(time(0));
-        std::vector<int> v;
-
-        const int size = 7;
-
-        for (int i = 0; i < size; i++)
-        {
-            v.push_back(rand() % 256);
-        }
-
-        std::cout << "Initial Vector: \n";
-        for (auto e : v)
-        {
-            std::cout << e << " ";
-        }
-        std::cout << "\n";
-
-        sort_by_insertion(v);
-
-        std::cout << "Sorted Vector: \n";
-        for (auto e : v)
-        {
-            std::cout << e << " ";
-        }
-        std::cout << "\n";
-
-        return 0;
-    }
-
-
     // merges two already sorted vectors
     void merge(std::vector<int>& v, int left, int mid, int right)
     {
@@ -320,6 +286,61 @@ namespace adi_sorting_algos
         int pPos = quicksort_partition(v, left, right);
         quicksort(v, left, pPos-1); 
         quicksort(v, pPos+1, right);
+    }
+
+    void testSortingAlgos()
+    {
+        std::vector<int> v;
+        //v = {31, 96, -56, -37, 76};
+        //v = {7, 2, 1, 3};
+        v = generate_random_vector(5, -100, 100);
+        std::vector<int> testVector = v;
+        // bubble_sort(v);5555
+        // selection_sort(v);
+        // stalin_sort(v);
+        // optimized_stalin_sort(v);
+        // insertion_sort(v);
+        // random_swap_sort(v);
+        // insertion_sort(v);
+        // merge_sort(testVector);
+
+        std::cout << "Before sorting: ";
+        for (auto& e : testVector)
+        {
+            std::cout << e << ", ";
+        }
+        std::cout << "\n";
+
+
+        //merge_sort_iter(testVector);
+        quicksort(testVector, 0, testVector.size()-1);
+
+        // measure_sort_time(testVector, monkey_sort, "Monkey Sort");
+        // measure_sort_time(testVector, random_swap_sort, "Random Swap Sort");
+        // testVector = v;
+        //measure_sort_time(testVector, bubble_sort, "Bubble Sort");
+        //testVector = v;
+        //measure_sort_time(testVector, merge_sort, "Merge Sort");
+
+        std::cout << "After sorting: ";
+        for (auto& e : testVector)
+        {
+            std::cout << e << ", ";
+        }
+        std::cout << "\n";
+
+
+        if(is_sorted(testVector))
+        {
+            std::cout << "Vector is sorted, congrats! \n";
+        }
+        else 
+        {
+            std::cout << "Vector is not sorted! \n";  
+        }
+
+        std::cout << "\n";
+        return;
     }
 
 } // namespace adi_sorting
