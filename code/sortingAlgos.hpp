@@ -299,4 +299,27 @@ namespace adi_sorting_algos
         return v;
     }
 
+    int quicksort_partition(std::vector<int>&v, int left, int right)
+    {
+        int pPos = left;
+        for(int i=left; i<right; ++i)
+        {
+            if(v[i]<v[right])
+            {
+                std::swap(v[i], v[pPos]);
+                pPos++;
+            }
+        }
+            std::swap(v[right], v[pPos]);
+            return pPos;
+    }
+
+    void quicksort(std::vector<int>& v, int left, int right)
+    {
+        if(left>=right) return;
+        int pPos = quicksort_partition(v, left, right);
+        quicksort(v, left, pPos-1); 
+        quicksort(v, pPos+1, right);
+    }
+
 } // namespace adi_sorting
