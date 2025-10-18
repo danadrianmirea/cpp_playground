@@ -1,7 +1,15 @@
 #pragma once
 
+#include <sys/time.h>
+
+#include <algorithm>
+#include <chrono>
+#include <climits>
+#include <cstdlib>
 #include <iostream>
+#include <random>
 #include <vector>
+
 
 namespace adi_sorting_algos
 {
@@ -100,6 +108,18 @@ namespace adi_sorting_algos
         return true;
     }
 
+    // monkey sort, also known as bogosort
+    void monkey_sort(std::vector<int>& v)
+    {
+        std::random_device rd;
+        std::mt19937 rng(rd());
+
+        while (is_sorted(v) == false)
+        {
+            std::shuffle(v.begin(), v.end(), rng);
+        }
+    }
+
     void random_swap_sort(std::vector<int>& v)
     {
         static bool is_seeded = false;
@@ -175,4 +195,92 @@ namespace adi_sorting_algos
 
         return 0;
     }
+
+
+    // merges two already sorted vectors
+    void merge(std::vector<int>& v, int left, int mid, int right)
+    {
+        int n1 = (mid - left) + 1;
+        int n2 = (right - mid);
+
+        std::vector<int> leftVector(n1);
+        std::vector<int> rightVector(n2);
+
+        for (int i = 0; i < n1; ++i)
+        {
+            leftVector[i] = v[left + i];
+        }
+
+        for (int i = 0; i < n2; ++i)
+        {
+            rightVector[i] = v[mid + 1 + i];
+        }
+
+        int leftIndex = 0;
+        int rightIndex = 0;
+        int cIndex = left;
+
+        while (leftIndex < n1 && rightIndex < n2)
+        {
+            if (leftVector[leftIndex] < rightVector[rightIndex])
+            {
+                v[cIndex] = leftVector[leftIndex];
+                leftIndex++;
+                cIndex++;
+            }
+            else
+            {
+                v[cIndex] = rightVector[rightIndex];
+                rightIndex++;
+                cIndex++;
+            }
+        }
+
+        while (leftIndex < n1)
+        {
+            v[cIndex] = leftVector[leftIndex];
+            leftIndex++;
+            cIndex++;
+        }
+
+        while (rightIndex < n2)
+        {
+            v[cIndex] = rightVector[rightIndex];
+            rightIndex++;
+            cIndex++;
+        }
+        }
+
+    // recursively split the array and merge the bits
+    void merge_sort_split(std::vector<int>& v, int left, int right)
+    {
+        int mid = left + (right - left) / 2;
+
+        if (left < right)
+        {
+            merge_sort_split(v, left, mid);
+            merge_sort_split(v, mid + 1, right);
+            merge(v, left, mid, right);
+        }
+    }
+
+    void merge_sort_iter(std::vector<int>& v)
+    {
+        int n = v.size();
+        for (int cSize = 1; cSize < n; cSize *= 2)
+        {
+            for (int left = 0; left < n - 1; left += 2 * cSize)
+            {
+                int right = std::min(left + 2 * cSize - 1, n - 1);
+                int mid = std::min(left + cSize - 1, n - 1);
+                merge(v, left, mid, right);
+            }
+        }
+    }
+
+    inline void merge_sort(std::vector<int>& v)
+    {
+        merge_sort_split(v, 0, v.size() - 1);
+    }
+
 } // namespace adi_sorting
