@@ -100,6 +100,33 @@ namespace adi_sorting_algos
         return true;
     }
 
+    void random_swap_sort(std::vector<int>& v)
+    {
+        static bool is_seeded = false;
+
+        int n = v.size();
+
+        if (is_seeded == false)
+        {
+            struct timeval tv;
+            gettimeofday(&tv, nullptr);
+            srand(tv.tv_usec);
+            is_seeded = true;
+        }
+
+        while (!is_sorted(v))
+        {
+            int index1 = rand() % n;
+            int index2 = rand() % n;
+
+            while (index1 == index2)
+            {
+                index2 = rand() % n;
+            }
+            std::swap(v[index1], v[index2]);
+        }
+    }
+
     inline void insertion_sort_v2(std::vector<int>& v)
     {
         int n = v.size();
