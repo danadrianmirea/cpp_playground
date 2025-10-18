@@ -12,7 +12,7 @@ namespace adi_sorting_algos
         b = temp;
     }
 
-    void bubble_sort(std::vector<int>& v)
+    inline void bubble_sort(std::vector<int>& v)
     {
         int n = v.size();
         for (int end = n - 1; end > 0; end--)
@@ -26,6 +26,32 @@ namespace adi_sorting_algos
             }
         }
     }
+
+    inline void selection_sort(std::vector<int>& v)
+    {
+        int startIndex = 0;
+        int n = v.size();
+        int minIndex;
+
+        for (int startIndex = 0; startIndex < n - 1; ++startIndex)
+        {
+            // select smallest item
+            minIndex = startIndex;
+            for (int i = startIndex + 1; i < n; ++i)
+            {
+                if (v[i] < v[minIndex])
+                {
+                    minIndex = i;
+                }
+            }
+
+            // put it at the start
+            if (startIndex != minIndex)
+            {
+                std::swap(v[startIndex], v[minIndex]);
+            }
+        }
+    }   
 
     inline void sort_by_insertion(std::vector<int> &v)
     {
