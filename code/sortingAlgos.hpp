@@ -87,6 +87,19 @@ namespace adi_sorting_algos
         }
     }
 
+    bool is_sorted(std::vector<int>& v)
+    {
+        int n = v.size();
+        for (int i = 1; i < n; i++)
+        {
+            if (v[i] < v[i - 1])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     inline void insertion_sort_v2(std::vector<int>& v)
     {
         int n = v.size();
