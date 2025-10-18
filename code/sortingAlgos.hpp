@@ -12,6 +12,21 @@ namespace adi_sorting_algos
         b = temp;
     }
 
+    void bubble_sort(std::vector<int>& v)
+    {
+    int n = v.size();
+    for (int end = n - 1; end > 0; end--)
+    {
+        for (int j = 0; j < end; j++)
+        {
+        if (v[j] > v[j + 1])
+        {
+            std::swap(v[j], v[j + 1]);
+        }
+        }
+    }
+    }    
+
     inline void sort_by_insertion(std::vector<int> &v)
     {
         if (v.size() < 2)
