@@ -283,4 +283,20 @@ namespace adi_sorting_algos
         merge_sort_split(v, 0, v.size() - 1);
     }
 
+    std::vector<int> generate_random_vector(int n, int lower_bound, int upper_bound)
+    {
+        // Random number generator setup
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(lower_bound, upper_bound);
+
+        std::vector<int> v(n);
+        for (int i = 0; i < n; ++i)
+        {
+            v[i] = dis(gen);  // Fill the vector with random values in the given range
+        }
+
+        return v;
+    }
+
 } // namespace adi_sorting
