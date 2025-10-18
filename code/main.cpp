@@ -1,6 +1,6 @@
-#include "stdFlatContainers.hpp"
+#include "sortingAlgos.hpp"
 
 int main() {
-    flat_containers_demo::demo_flat_map_set();
+    adi_sorting_algos::testInsertionSort();
     return 0;
 }
