@@ -87,6 +87,22 @@ namespace adi_sorting_algos
         }
     }
 
+    inline void insertion_sort_v2(std::vector<int>& v)
+    {
+        int n = v.size();
+        for (int i = 1; i < n; ++i)
+        {
+            int tmp = v[i];
+            int cInd = i;
+            while (cInd > 0 && tmp < v[cInd - 1])
+            {
+                v[cInd] = v[cInd - 1];
+                cInd--;
+            }
+            v[cInd] = tmp;
+        }
+    }    
+
     inline int testInsertionSort()
     {
         std::cout << "Program start: \n";
