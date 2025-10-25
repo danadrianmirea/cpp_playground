@@ -1,6 +1,7 @@
-#include "sortingAlgos.hpp"
+
+#include "maxHeap.hpp"
 
 int main() {
-    adi_sorting_algos::testSortingAlgos();
+    maxHeapDemo();
     return 0;
 }
