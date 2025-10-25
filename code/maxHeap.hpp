@@ -11,10 +11,22 @@ private:
     std::vector<T> heap;
 
     // Helper functions for heap operations
+    int getParent(int index) const {
+        return (index - 1) / 2;
+    }
+
+    int getLeftChild(int index) const {
+        return 2 * index + 1;
+    }
+
+    int getRightChild(int index) const {
+        return 2 * index + 2;
+    }
+
     void heapifyUp(int index) {
         if (index == 0) return;
         
-        int parentIndex = (index - 1) / 2;
+        int parentIndex = getParent(index);
         if (heap[index] > heap[parentIndex]) {
             std::swap(heap[index], heap[parentIndex]);
             heapifyUp(parentIndex);
@@ -22,8 +34,8 @@ private:
     }
 
     void heapifyDown(int index) {
-        int leftChild = 2 * index + 1;
-        int rightChild = 2 * index + 2;
+        int leftChild = getLeftChild(index);
+        int rightChild = getRightChild(index);
         int largest = index;
 
         if (leftChild < heap.size() && heap[leftChild] > heap[largest]) {
