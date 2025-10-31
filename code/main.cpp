@@ -1,7 +1,6 @@
-
-#include "maxHeap.hpp"
+#include "stdAdressOf.hpp"
 
 int main() {
-    maxHeapDemo();
+    stdAddressOfDemo();
     return 0;
 }
