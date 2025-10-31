@@ -1,6 +1,6 @@
-#include "stdAdressOf.hpp"
+#include "sizeOfEmptyClass.hpp"
 
 int main() {
-    stdAddressOfDemo();
+    sizeOfEmptyClassDemo();
     return 0;
 }
