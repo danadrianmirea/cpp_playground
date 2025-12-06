@@ -1,6 +1,6 @@
-#include "sortingAlgos.hpp"
+#include "sizeOfEmptyClass.hpp"
 
 int main() {
-    adi_sorting_algos::testSortingAlgos();
+    sizeOfEmptyClassDemo();
     return 0;
 }
