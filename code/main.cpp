@@ -1,6 +1,7 @@
-#include "sizeOfEmptyClass.hpp"
+
+#include "verifyCreditCardNumber.hpp"
 
 int main() {
-    sizeOfEmptyClassDemo();
+    verifyCreditCardNumberDemo();
     return 0;
 }
