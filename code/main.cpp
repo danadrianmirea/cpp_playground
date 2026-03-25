@@ -1,6 +1,6 @@
-#include "sizeOfEmptyClass.hpp"
+#include "incorrectFloatComparation.hpp"
 
 int main() {
-    sizeOfEmptyClassDemo();
+    testIncorrectFloatComparation();
     return 0;
 }
