@@ -1,7 +1,6 @@
 #pragma once
 
-#include <sys/time.h>
-
+#include <chrono>
 #include <algorithm>
 #include <chrono>
 #include <climits>
@@ -128,9 +127,11 @@ namespace adi_sorting_algos
 
         if (is_seeded == false)
         {
-            struct timeval tv;
-            gettimeofday(&tv, nullptr);
-            srand(tv.tv_usec);
+            // Use chrono to obtain a high-resolution time-based seed (portable)
+            using namespace std::chrono;
+            auto now = high_resolution_clock::now().time_since_epoch();
+            auto usec = duration_cast<microseconds>(now).count();
+            srand(static_cast<unsigned>(usec));
             is_seeded = true;
         }
 
