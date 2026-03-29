@@ -1,7 +1,6 @@
-
-#include "verifyCreditCardNumber.hpp"
+#include "incorrectFloatComparation.hpp"
 
 int main() {
-    verifyCreditCardNumberDemo();
+    testIncorrectFloatComparation();
     return 0;
 }
