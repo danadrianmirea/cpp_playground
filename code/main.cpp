@@ -1,6 +1,6 @@
-#include "incorrectFloatComparation.hpp"
+#include "roundRobin.hpp"
 
 int main() {
-    testIncorrectFloatComparation();
+    testRoundRobin();
     return 0;
 }
