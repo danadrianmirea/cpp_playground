@@ -1,6 +1,7 @@
-#include "roundRobin.hpp"
+#include "safeSharedPointer.hpp"
 
-int main() {
-    testRoundRobin();
+int main() 
+{    
+    demoSafeSharedPtr();
     return 0;
 }
