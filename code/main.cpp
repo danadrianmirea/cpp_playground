@@ -1,7 +1,7 @@
-#include "safeSharedPointer.hpp"
+#include "lockFreeSync.hpp"
 
 int main() 
 {    
-    demoSafeSharedPtr();
+    lock_free_sync::demoLockFreeSync();
     return 0;
 }
