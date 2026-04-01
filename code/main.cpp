@@ -1,7 +1,7 @@
-#include "lockFreeSync.hpp"
+#include "demoStdLatch.hpp"
 
 int main() 
 {    
-    lock_free_sync::demoLockFreeSync();
+    demo_std_latch::demoStdLatch();
     return 0;
 }
