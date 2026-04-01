@@ -1,7 +1,8 @@
-#include "demoStdLatch.hpp"
+
+#include "stdBarrier.hpp"
 
 int main() 
 {    
-    demo_std_latch::demoStdLatch();
+    demo_std_barrier::demoStdBarrier();
     return 0;
 }
