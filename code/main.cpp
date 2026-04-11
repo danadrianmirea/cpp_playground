@@ -1,8 +1,8 @@
 
-#include "stdBarrier.hpp"
+#include "stdPmrDemo.hpp"
 
 int main() 
 {    
-    demo_std_barrier::demoStdBarrier();
+    demo_std_pmr::demoStdPmr();
     return 0;
 }
