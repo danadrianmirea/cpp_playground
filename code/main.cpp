@@ -1,8 +1,9 @@
+#include "bigNumberLib.hpp"
 
-#include "stdSyncStreamDemo.hpp"
+using namespace adi_big_number;
 
 int main() 
 {    
-    demo_std_syncstream::demoStdSyncStream();
+    demo_big_number::demoBigNumber();
     return 0;
 }
