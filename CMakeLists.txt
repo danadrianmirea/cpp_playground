@@ -11,4 +11,8 @@ endif()
 
 project(cpp_playground)
 
+# Enable testing with CTest
+enable_testing()
+
 add_subdirectory(code)
+add_subdirectory(code/test)
